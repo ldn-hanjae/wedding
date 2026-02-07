@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>한재 & 지선 결혼합니다</title>
+  <!-- 항상 슬래시 있는 URL로 통일 (카카오톡 등 미리보기 이미지 동일 적용) -->
+  <script>
+    (function() {
+      var u = location.href;
+      if (u.indexOf('?') !== -1) u = u.split('?')[0];
+      if (u.indexOf('#') !== -1) u = u.split('#')[0];
+      if (u && !/\/$/.test(u) && location.hostname === 'hanjae-jiseon-wedding.info' && (location.pathname === '' || location.pathname === '/')) {
+        location.replace('https://hanjae-jiseon-wedding.info/' + (location.search || '') + (location.hash || ''));
+      }
+    })();
+  </script>
+  <link rel="canonical" href="https://hanjae-jiseon-wedding.info/">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://hanjae-jiseon-wedding.info/">

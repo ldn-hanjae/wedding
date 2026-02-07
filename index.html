@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한재 & 지선 결혼합니다</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8F8F4;
+      --text: #667E6B;
+      --text-dark: #5C6F5A;
+      --text-body: #333333;
+      --bracket: #CCCCCC;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========== 커버 섹션 (첫 번째 디자인) ========== */
+    .cover {
+      min-height: 100vh;
+      padding: 3rem 1.5rem 2rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cover::before,
+    .cover::after {
+      content: '';
+      position: absolute;
+      left: 1.5rem;
+      width: 1px;
+      background: var(--text);
+      opacity: 0.6;
+    }
+    .cover::before {
+      top: 4rem;
+      height: 35vh;
+    }
+    .cover::after {
+      top: 50%;
+      height: 40vh;
+    }
+
+    .cover-tagline {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1rem, 4vw, 1.35rem);
+      color: var(--text);
+      text-align: right;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .cover-names {
+      margin-left: 0.5rem;
+    }
+    .cover-names .name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 12vw, 4rem);
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.08em;
+      line-height: 1.15;
+    }
+    .cover-names .and {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text);
+      margin: 0.25rem 0 0.1rem 0.1rem;
+    }
+
+    .cover-info {
+      margin-top: auto;
+      text-align: right;
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.6;
+    }
+    .cover-info .venue {
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+    .cover-info .datetime {
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    /* ========== 초대장 본문 (두 번째 디자인) ========== */
+    .invitation {
+      padding: 3rem 1.5rem 4rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .invitation-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 5vw, 1.75rem);
+      color: var(--text-dark);
+      text-align: center;
+      letter-spacing: 0.12em;
+      margin-bottom: 2.5rem;
+    }
+
+    .invitation-body {
+      text-align: center;
+      color: var(--text-body);
+      font-size: 0.95rem;
+      line-height: 1.9;
+      font-weight: 300;
+    }
+    .invitation-body p {
+      margin-bottom: 1.25rem;
+    }
+    .invitation-body p:last-of-type {
+      margin-bottom: 2rem;
+    }
+
+    .names-block {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+      position: relative;
+      padding: 0 1rem;
+    }
+    .names-block::before,
+    .names-block::after {
+      content: '[';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--bracket);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .names-block::before {
+      left: 0;
+    }
+    .names-block::after {
+      content: ']';
+      left: auto;
+      right: 0;
+    }
+
+    .names-left {
+      text-align: right;
+      font-size: 0.8rem;
+      color: var(--text-body);
+      line-height: 1.8;
+      font-weight: 400;
+    }
+    .names-right {
+      text-align: left;
+    }
+    .names-right .groom,
+    .names-right .bride {
+      font-size: clamp(1.25rem, 5vw, 1.5rem);
+      font-weight: 500;
+      color: var(--text-body);
+      letter-spacing: 0.02em;
+    }
+
+    .details {
+      text-align: center;
+      margin-top: 2.5rem;
+      color: var(--text-body);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .details .datetime {
+      font-weight: 500;
+      margin-bottom: 0.35rem;
+    }
+    .details .venue {
+      font-weight: 400;
+    }
+
+    .qr-wrap {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding: 1rem;
+    }
+    .qr-wrap img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border: 1px solid var(--bracket);
+      border-radius: 4px;
+    }
+    .qr-placeholder {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--bracket);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bracket);
+      font-size: 0.75rem;
+    }
+
+    .scroll-hint {
+      text-align: center;
+      padding: 1rem;
+      color: var(--text);
+      opacity: 0.7;
+      font-size: 0.8rem;
+    }
+    .scroll-hint span {
+      display: inline-block;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <p class="cover-tagline">Every Day, Every Moment</p>
+    <div class="cover-names">
+      <div class="name">HANJAE</div>
+      <div class="and">and</div>
+      <div class="name">JISEON</div>
+    </div>
+    <div class="cover-info">
+      <div class="venue">인천 메리빌리아 셀레스메리홀</div>
+      <div class="datetime">2026.06.20.SAT PM 04:10</div>
+    </div>
+  </section>
+
+  <p class="scroll-hint"><span>↓</span> 아래로 스크롤</p>
+
+  <section class="invitation">
+    <h1 class="invitation-title">WEDDING INVITATION</h1>
+
+    <div class="invitation-body">
+      <p>
+        스물셋, 캠퍼스에서 처음 만나 한 계절이 일곱 번 바뀌는 시간동안<br>
+        재촉하지 않고 묵묵히 서로의 곁을 지켜왔습니다.<br>
+        함께 채워온 지금의 이 깊은 믿음과 사랑으로<br>
+        선한 영향력을 나누는 예쁜 가정을 가꾸어 가겠습니다.
+      </p>
+      <p>
+        저희 두 사람이 걸어갈 인생의 첫걸음에 함께해 주신다면<br>
+        큰 기쁨으로 간직하겠습니다.
+      </p>
+    </div>
+
+    <div class="names-block">
+      <div class="names-left">
+        배재열·김명희의 장남<br>
+        임두희·박미애의 차녀
+      </div>
+      <div class="names-right">
+        <div class="groom">배한재</div>
+        <div class="bride">임지선</div>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="datetime">2026년 6월 20일 (토) 오후 4시 10분</div>
+      <div class="venue">인천 메리빌리아 셀레스메리홀</div>
+    </div>
+
+    <div class="qr-wrap">
+      <div class="qr-placeholder">QR 코드</div>
+      <!-- 실제 QR 이미지 사용 시:
+      <img src="qr.png" alt="오시는 길 또는 청첩장 링크" />
+      -->
+    </div>
+  </section>
+</body>
+</html>

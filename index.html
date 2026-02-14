@@ -59,8 +59,18 @@
 
       body {
         font-family: "Noto Sans KR", sans-serif;
-        background: var(--bg);
+        background: #b5b5b5;
         color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+      }
+
+      .site-wrap {
+        max-width: 450px;
+        width: 100%;
+        background: var(--bg);
         min-height: 100vh;
         overflow-x: hidden;
       }
@@ -253,6 +263,7 @@
     </style>
   </head>
   <body>
+    <div class="site-wrap">
     <section class="cover">
       <p class="cover-tagline">Every Day, Every Moment</p>
       <div class="cover-names">
@@ -300,5 +311,6 @@
         <div class="venue">인천 메리빌리아 셀레스메리홀</div>
       </div>
     </section>
+    </div>
   </body>
 </html>

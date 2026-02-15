@@ -186,47 +186,18 @@
       }
 
       .names-block {
-        display: flex;
-        justify-content: center;
-        align-items: stretch;
-        gap: 1.5rem;
+        text-align: center;
         margin: 2.5rem 0;
-        position: relative;
-        padding: 0 1rem;
       }
-      .names-block::before,
-      .names-block::after {
-        font-family: "Cormorant Garamond", serif;
-        font-size: 2rem;
-        color: var(--bracket);
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      .names-block::before {
-        left: 0;
-      }
-      .names-block::after {
-        left: auto;
-        right: 0;
-      }
-
-      .names-left {
-        text-align: right;
-        font-size: 0.8rem;
+      .names-line {
+        display: block;
+        font-size: 0.95rem;
         color: var(--text-body);
-        line-height: 1.8;
+        line-height: 2;
         font-weight: 400;
       }
-      .names-right {
-        text-align: left;
-      }
-      .names-right .groom,
-      .names-right .bride {
-        font-size: clamp(1.25rem, 5vw, 1.5rem);
-        font-weight: 500;
-        color: var(--text-body);
-        letter-spacing: 0.02em;
+      .names-line .b {
+        font-weight: 700;
       }
 
       .details {
@@ -242,6 +213,261 @@
       }
       .details .venue {
         font-weight: 400;
+      }
+
+      .bus-section {
+        margin-top: 2.5rem;
+        text-align: left;
+        padding: 0 0.5rem;
+      }
+      .bus-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .bus-icon {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #d0d0d0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .bus-icon {
+        font-size: 1.2rem;
+        line-height: 1;
+      }
+      .bus-icon img,
+      .bus-icon svg {
+        width: 1.15rem;
+        height: 1.15rem;
+        object-fit: contain;
+      }
+      .bus-icon svg {
+        stroke: var(--text-body);
+      }
+      .bus-title {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text-body);
+      }
+      .bus-separator {
+        border: none;
+        border-top: 1px dotted #bbb;
+        margin: 0 0 1rem 0;
+      }
+      .bus-city {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--text-body);
+        margin-bottom: 0.35rem;
+      }
+      .bus-route {
+        font-size: 0.85rem;
+        color: var(--text-body);
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+      .bus-route:last-child {
+        margin-bottom: 0;
+      }
+
+      .location-section {
+        margin-top: 2.5rem;
+        text-align: left;
+        padding: 0 0.5rem;
+      }
+      .location-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .location-icon {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #d0d0d0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+      .location-title {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text-body);
+      }
+      .location-separator {
+        border: none;
+        border-top: 1px dotted #bbb;
+        margin: 0 0 1rem 0;
+      }
+      .location-address {
+        font-size: 0.9rem;
+        color: var(--text-body);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+      .location-copy-btn {
+        display: inline-block;
+        padding: 0.5rem 1.25rem;
+        margin-bottom: 1.25rem;
+        font-size: 0.85rem;
+        color: var(--text-body);
+        background: #e8e8e8;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .location-copy-btn:active {
+        background: #ddd;
+      }
+      .location-map-wrap {
+        position: relative;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f0f0f0;
+      }
+      .location-map-wrap iframe {
+        display: block;
+        width: 100%;
+        height: 220px;
+        border: 0;
+      }
+      .location-map-links {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-top: 0.75rem;
+      }
+      .location-map-link {
+        display: inline-block;
+        padding: 0.4rem 0.9rem;
+        font-size: 0.8rem;
+        color: var(--text-body);
+        background: #e8e8e8;
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+        font-family: inherit;
+      }
+      .location-map-link:hover {
+        background: #ddd;
+      }
+
+      .gallery-section {
+        margin-top: 2.5rem;
+        text-align: left;
+        padding: 0 0.5rem;
+      }
+      .gallery-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .gallery-icon {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #d0d0d0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+      .gallery-title {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text-body);
+      }
+      .gallery-separator {
+        border: none;
+        border-top: 1px dotted #bbb;
+        margin: 0 0 1rem 0;
+      }
+      .gallery-message {
+        font-size: 0.9rem;
+        color: var(--text-body);
+        line-height: 1.8;
+      }
+      .gallery-preview {
+        margin-top: 1rem;
+      }
+      .gallery-preview img {
+        width: 100%;
+        display: block;
+        border-radius: 8px;
+      }
+      .gallery-placeholder-wrap {
+        position: relative;
+        margin-top: 1rem;
+      }
+      .gallery-placeholder-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+      }
+      .gallery-placeholder-grid .box {
+        aspect-ratio: 1;
+        background: #d8d8d8;
+        border-radius: 6px;
+        border: 1px solid #e8e8e8;
+      }
+      .gallery-placeholder-overlay {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 20px;
+        font-size: 0.95rem;
+        font-style: italic;
+        color: var(--text-body);
+        letter-spacing: 0.02em;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04);
+        animation: float-gentle 3s ease-in-out infinite;
+      }
+      @keyframes float-gentle {
+        0%, 100% {
+          transform: translate(-50%, -50%) translateY(0);
+        }
+        50% {
+          transform: translate(-50%, -50%) translateY(-6px);
+        }
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .gallery-grid img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 6px;
       }
     </style>
   </head>
@@ -280,21 +506,129 @@
         </div>
 
         <div class="names-block">
-          <div class="names-left">
-            배재열·김명희의 장남<br />
-            임두희·박미애의 차녀
-          </div>
-          <div class="names-right">
-            <div class="groom">배한재</div>
-            <div class="bride">임지선</div>
-          </div>
+          <span class="names-line"
+            ><span class="b">배재열</span> · <span class="b">김명희 </span>의
+            장남 <span class="b">배한재</span></span
+          >
+          <span class="names-line"
+            ><span class="b">임두희</span> · <span class="b">박미애 </span>의
+            차녀 <span class="b">임지선</span></span
+          >
         </div>
 
         <div class="details">
           <div class="datetime">2026년 6월 20일 (토) 오후 4시 10분</div>
           <div class="venue">인천 메리빌리아 셀레스메리홀</div>
         </div>
+
+        <div class="gallery-section">
+          <div class="gallery-header">
+            <div class="gallery-icon">🖼️</div>
+            <span class="gallery-title">갤러리</span>
+          </div>
+          <hr class="gallery-separator" />
+          <p class="gallery-message">
+            아직 사진첩이 비어있어 놀라셨죠? 저희의 가장 찬란한 순간을 담아 조금
+            늦게 도착할 예정입니다. 3월 초, 눈부신 모습으로 찾아올 테니 조금만
+            기다려 주세요.
+          </p>
+          <div class="gallery-preview">
+            <img src="og-image.jpg" alt="저희의 소중한 순간" />
+          </div>
+          <div class="gallery-placeholder-wrap">
+            <div class="gallery-placeholder-grid">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="gallery-placeholder-overlay">To Be Continue</div>
+          </div>
+        </div>
+
+        <div class="location-section">
+          <div class="location-header">
+            <div class="location-icon">📍</div>
+            <span class="location-title">오시는 길</span>
+          </div>
+          <hr class="location-separator" />
+          <div class="location-address" id="wedding-address">
+            인천광역시 연수구 송도과학로 16번길 33-1<br />
+            송도 트리플스트리트 A동 메리빌리아 셀레스메리홀
+          </div>
+          <button type="button" class="location-copy-btn" id="copy-address-btn">
+            주소 복사
+          </button>
+          <div class="location-map-wrap">
+            <iframe
+              src="https://www.google.com/maps?q=인천광역시+연수구+송도과학로+16번길+33-1+메리빌리아&output=embed"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="메리빌리아 셀레스메리홀 위치"
+            ></iframe>
+          </div>
+          <div class="location-map-links">
+            <a
+              class="location-map-link"
+              href="https://map.naver.com/v5/search/인천%20메리빌리아"
+              target="_blank"
+              rel="noopener noreferrer"
+              >네이버지도에서 보기
+            </a>
+            <a
+              class="location-map-link"
+              href="https://map.kakao.com/link/search/인천%20메리빌리아"
+              target="_blank"
+              rel="noopener noreferrer"
+              >카카오맵에서 보기
+            </a>
+          </div>
+        </div>
+
+        <div class="bus-section">
+          <div class="bus-header">
+            <div class="bus-icon">🚌</div>
+            <span class="bus-title">전세버스</span>
+          </div>
+          <hr class="bus-separator" />
+          <div class="bus-city">울산</div>
+          <div class="bus-route">
+            : 언양교회 앞(09:30 출발) → 셀레스메리홀(18:30 출발)
+          </div>
+        </div>
       </section>
     </div>
+    <script>
+      (function () {
+        var fullAddress =
+          "인천광역시 연수구 송도과학로 16번길 33-1 (송도 트리플스트리트 A동 메리빌리아 셀레스메리홀)";
+
+        var btn = document.getElementById("copy-address-btn");
+        if (btn) {
+          btn.addEventListener("click", function () {
+            navigator.clipboard
+              .writeText(fullAddress)
+              .then(function () {
+                btn.textContent = "복사되었습니다";
+                setTimeout(function () {
+                  btn.textContent = "주소 복사";
+                }, 2000);
+              })
+              .catch(function () {
+                btn.textContent = "복사 실패";
+                setTimeout(function () {
+                  btn.textContent = "주소 복사";
+                }, 2000);
+              });
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

@@ -97,13 +97,22 @@
     .cover-hero-visual {
       position: relative;
       width: 100%;
-      height: clamp(340px, 70vh, 580px);
+      /* 뷰포트(vh) 미사용: 모바일에서 주소창 때문에 스크롤할 때마다 높이가 흔들리지 않음 */
+      height: 600px;
+      min-height: 600px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       background-color: var(--bg);
+    }
+
+    @media (max-width: 480px) {
+      .cover-hero-visual {
+        height: 640px;
+        min-height: 640px;
+      }
     }
 
     .cover-hero-visual img {

@@ -97,9 +97,10 @@
     .cover-hero-visual {
       position: relative;
       width: 100%;
-      /* 뷰포트(vh) 미사용: 모바일에서 주소창 때문에 스크롤할 때마다 높이가 흔들리지 않음 */
-      height: 600px;
-      min-height: 600px;
+      /* og-image.jpg(682×1024)와 같은 비율 → 너비가 커져도 상·하 잘림 없음 */
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 682 / 1024;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -108,21 +109,31 @@
       background-color: var(--bg);
     }
 
-    @media (max-width: 480px) {
-      .cover-hero-visual {
-        height: 640px;
-        min-height: 640px;
-      }
-    }
-
     .cover-hero-visual img {
       position: relative;
       z-index: 0;
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover;
-      object-position: center top;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    @media (max-width: 480px) {
+      .cover-hero-visual {
+        /* 모바일: 첫 화면을 뷰포트 높이에 맞춤. aspect-ratio는 해제해 dvh가 적용되게 함 */
+        aspect-ratio: unset;
+        height: 100vh;
+        min-height: 100vh;
+        height: 100dvh;
+        min-height: 100dvh;
+        /* center면 img가 세로 가운데로 떠서 상단 여백처럼 보임 */
+        align-items: stretch;
+      }
+
+      .cover-hero-visual img {
+        object-position: center top;
+      }
     }
 
     .cover-overlay-bottom {

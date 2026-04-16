@@ -169,6 +169,7 @@
     }
 
     .invitation-title-row {
+      --invitation-title-size: clamp(1.12rem, 4.1vw, 1.42rem);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -179,7 +180,7 @@
 
     .invitation-title {
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(1.4rem, 5vw, 1.75rem);
+      font-size: var(--invitation-title-size);
       color: var(--text-dark);
       text-align: center;
       letter-spacing: 0.12em;
@@ -188,7 +189,7 @@
 
     .letter-egg-trigger {
       margin: 0;
-      font-size: clamp(1.1rem, 4.2vw, 1.35rem);
+      font-size: var(--invitation-title-size);
       line-height: 1;
       cursor: default;
       user-select: none;
@@ -762,6 +763,54 @@
       line-height: 1.35;
     }
 
+    .invitation-title-emoji {
+      margin-right: 0.2em;
+      font-size: var(--invitation-title-size);
+      letter-spacing: 0;
+      vertical-align: 0.08em;
+    }
+
+    .letter-secret__gesture-intro {
+      margin: 0 0 1rem;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      font-weight: 300;
+      text-align: center;
+      color: var(--text-body);
+    }
+
+    .letter-secret__gesture-row {
+      display: flex;
+      gap: 0.65rem;
+      justify-content: center;
+      margin-bottom: 0.65rem;
+    }
+
+    .letter-secret__gesture-btn {
+      flex: 1;
+      max-width: 8rem;
+      min-height: 3.75rem;
+      font-size: 2rem;
+      line-height: 1;
+      border-radius: 10px;
+      border: 1px solid #c5c5c0;
+      background: #fafaf8;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0.35rem;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .letter-secret__gesture-btn:hover {
+      border-color: var(--text-dark);
+      background: #fff;
+    }
+
+    .letter-secret__gesture-btn:active {
+      background: #eceee9;
+    }
+
     .letter-secret__field {
       width: 100%;
       box-sizing: border-box;
@@ -938,7 +987,7 @@
 
     <section class="invitation">
       <div class="invitation-title-row reveal">
-        <h1 class="invitation-title">WEDDING INVITATION</h1>
+        <h1 class="invitation-title"><span class="invitation-title-emoji" aria-hidden="true">✉️</span> WEDDING INVITATION</h1>
         <p class="letter-egg-trigger" id="letter-egg-trigger" tabindex="-1">✉️</p>
       </div>
 
@@ -986,6 +1035,24 @@
           <img src="mobile-invitaion-first/mobile-invitation-first07.jpeg" alt="웨딩 갤러리" />
           <img src="mobile-invitaion-first/mobile-invitation-first08.jpeg" alt="웨딩 갤러리" />
           <img src="mobile-invitaion-first/mobile-invitation-first09.jpeg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first10.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first11.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first12.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first13.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first14.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first15.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first16.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first17.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first18.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first19.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first20.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first21.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first22.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first23.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first24.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first25.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first26.jpg" alt="웨딩 갤러리" />
+          <img src="mobile-invitaion-first/mobile-invitation-first27.jpg" alt="웨딩 갤러리" />
         </div>
       </div>
 
@@ -1044,11 +1111,20 @@
   </div>
 
   <div id="letter-secret-dialog" class="letter-secret" role="dialog" aria-modal="true"
-    aria-labelledby="letter-secret-heading" hidden>
+    aria-labelledby="letter-secret-gesture-heading" hidden>
     <div class="letter-secret__backdrop" aria-hidden="true"></div>
     <div class="letter-secret__panel">
       <button type="button" class="letter-secret__close" id="letter-secret-close-x" aria-label="닫기">×</button>
-      <div id="letter-secret-step-pass" class="letter-secret__step">
+      <div id="letter-secret-step-gesture" class="letter-secret__step">
+        <h2 id="letter-secret-gesture-heading">잠깐만요</h2>
+        <p class="letter-secret__gesture-intro">👈 왼쪽을 먼저, 이어서 👉 오른쪽을<br />적당한 시간 안에 순서대로 눌러 주세요.</p>
+        <div class="letter-secret__gesture-row">
+          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-left" aria-label="왼쪽">👈</button>
+          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-right" aria-label="오른쪽">👉</button>
+        </div>
+        <div id="letter-secret-gest-hint" class="letter-secret__hint" aria-live="polite"></div>
+      </div>
+      <div id="letter-secret-step-pass" class="letter-secret__step" hidden>
         <h2 id="letter-secret-heading">비밀번호를 입력해 주세요</h2>
         <label class="visually-hidden" for="letter-secret-input">비밀번호</label>
         <input type="password" id="letter-secret-input" class="letter-secret__field" autocomplete="off"
@@ -1108,10 +1184,14 @@
       var dialog = document.getElementById("letter-secret-dialog");
       if (!trigger || !dialog) return;
 
+      var stepGesture = document.getElementById("letter-secret-step-gesture");
       var stepPass = document.getElementById("letter-secret-step-pass");
       var stepLetter = document.getElementById("letter-secret-step-letter");
       var input = document.getElementById("letter-secret-input");
       var hint = document.getElementById("letter-secret-hint");
+      var gestHint = document.getElementById("letter-secret-gest-hint");
+      var btnGestLeft = document.getElementById("letter-secret-gest-left");
+      var btnGestRight = document.getElementById("letter-secret-gest-right");
       var elTo = document.getElementById("letter-secret-to");
       var elBody = document.getElementById("letter-secret-body");
       var btnSubmit = document.getElementById("letter-secret-submit");
@@ -1124,8 +1204,27 @@
       var lastTouchAt = 0;
       var TAP_WINDOW_MS = 500;
 
+      var RIGHT_WAIT_MS = 2800;
+      var gestureExpectLeft = true;
+      var gestureDeadlineTimer = null;
+
+      function clearGestureDeadline() {
+        if (gestureDeadlineTimer) {
+          window.clearTimeout(gestureDeadlineTimer);
+          gestureDeadlineTimer = null;
+        }
+      }
+
+      function resetGestureChallenge() {
+        clearGestureDeadline();
+        gestureExpectLeft = true;
+        if (gestHint) gestHint.textContent = "";
+      }
+
       function resetSteps() {
-        if (stepPass) stepPass.removeAttribute("hidden");
+        resetGestureChallenge();
+        if (stepGesture) stepGesture.removeAttribute("hidden");
+        if (stepPass) stepPass.setAttribute("hidden", "");
         if (stepLetter) stepLetter.setAttribute("hidden", "");
         if (input) input.value = "";
         if (hint) hint.textContent = "";
@@ -1133,17 +1232,29 @@
         if (elBody) elBody.textContent = "";
       }
 
-      function openDialog() {
-        resetSteps();
-        dialog.removeAttribute("hidden");
-        dialog.classList.add("is-open");
-        document.body.classList.add("letter-secret-open");
+      function showPasswordStep() {
+        clearGestureDeadline();
+        if (stepGesture) stepGesture.setAttribute("hidden", "");
+        if (stepPass) stepPass.removeAttribute("hidden");
+        dialog.setAttribute("aria-labelledby", "letter-secret-heading");
         window.setTimeout(function () {
           if (input) input.focus();
         }, 0);
       }
 
+      function openDialog() {
+        resetSteps();
+        dialog.setAttribute("aria-labelledby", "letter-secret-gesture-heading");
+        dialog.removeAttribute("hidden");
+        dialog.classList.add("is-open");
+        document.body.classList.add("letter-secret-open");
+        window.setTimeout(function () {
+          if (btnGestLeft) btnGestLeft.focus();
+        }, 0);
+      }
+
       function closeDialog() {
+        clearGestureDeadline();
         dialog.classList.remove("is-open");
         dialog.setAttribute("hidden", "");
         document.body.classList.remove("letter-secret-open");
@@ -1183,6 +1294,58 @@
         registerTap();
       });
 
+      function onGestureWrongOrder() {
+        resetGestureChallenge();
+        if (gestHint) gestHint.textContent = "왼쪽(👈)부터 눌러 주세요.";
+      }
+
+      function onGestureTimeout() {
+        gestureDeadlineTimer = null;
+        gestureExpectLeft = true;
+        if (gestHint) gestHint.textContent = "시간이 조금 지났어요. 다시 왼쪽부터 눌러 주세요.";
+      }
+
+      function onGestureLeftTap() {
+        if (!stepGesture || stepGesture.hasAttribute("hidden")) return;
+        if (!gestureExpectLeft) {
+          if (gestHint) gestHint.textContent = "이어서 오른쪽(👉)을 눌러 주세요.";
+          return;
+        }
+        clearGestureDeadline();
+        gestureExpectLeft = false;
+        if (gestHint) gestHint.textContent = "";
+        gestureDeadlineTimer = window.setTimeout(onGestureTimeout, RIGHT_WAIT_MS);
+      }
+
+      function onGestureRightTap() {
+        if (!stepGesture || stepGesture.hasAttribute("hidden")) return;
+        if (gestureExpectLeft) {
+          onGestureWrongOrder();
+          return;
+        }
+        clearGestureDeadline();
+        gestureExpectLeft = true;
+        showPasswordStep();
+      }
+
+      if (btnGestLeft) {
+        btnGestLeft.addEventListener("click", onGestureLeftTap);
+      }
+      if (btnGestRight) {
+        btnGestRight.addEventListener("click", onGestureRightTap);
+      }
+
+      dialog.addEventListener("keydown", function (e) {
+        if (!stepGesture || stepGesture.hasAttribute("hidden")) return;
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          onGestureLeftTap();
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          onGestureRightTap();
+        }
+      });
+
       function trySubmit() {
         var raw = (input && input.value) || "";
         var key = raw.trim();
@@ -1196,6 +1359,7 @@
         if (elBody) elBody.textContent = entry.body || "";
         if (stepPass) stepPass.setAttribute("hidden", "");
         if (stepLetter) stepLetter.removeAttribute("hidden");
+        dialog.setAttribute("aria-labelledby", "letter-secret-to");
       }
 
       if (btnSubmit) btnSubmit.addEventListener("click", trySubmit);

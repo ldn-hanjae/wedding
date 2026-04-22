@@ -335,7 +335,13 @@
       transform: translate3d(0, 0, 0);
     }
 
-    .gallery-photo-grid img.reveal-item {
+    .gallery-photo-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #e8e8e8;
+      cursor: pointer;
       opacity: 0;
       transform: translate3d(0, 0.65rem, 0) scale(0.98);
       transition:
@@ -343,14 +349,15 @@
         transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .gallery-photo-grid img.reveal-item.is-visible {
+    .gallery-photo-grid img.is-visible {
       opacity: 1;
       transform: translate3d(0, 0, 0) scale(1);
     }
 
     @media (prefers-reduced-motion: reduce) {
+
       .reveal,
-      .gallery-photo-grid img.reveal-item {
+      .gallery-photo-grid img {
         opacity: 1;
         transform: none;
         transition: none;
@@ -512,20 +519,64 @@
       line-height: 1.8;
     }
 
+    .gallery-grid-wrap {
+      position: relative;
+      overflow: hidden;
+      transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      margin-top: 1rem;
+    }
+
+    .gallery-grid-wrap::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3.5rem;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .gallery-grid-wrap.is-expanded::after {
+      opacity: 0;
+    }
+
     .gallery-photo-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0.4rem;
-      margin-top: 1rem;
     }
 
-    .gallery-photo-grid img {
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #e8e8e8;
+    .gallery-more-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      margin: 0.8rem auto 0;
+      padding: 0.4rem 0;
+      font-size: 0.82rem;
+      color: #888;
+      background: none;
+      border: none;
       cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+    }
+
+    .gallery-more-btn .chevron {
+      display: inline-block;
+      font-size: 1.2rem;
+      transform: rotate(90deg);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-more-btn.is-expanded .chevron {
+      transform: rotate(-90deg);
+    }
+
+    .gallery-more-btn.is-hidden {
+      display: none;
     }
 
     .gallery-lightbox {
@@ -987,7 +1038,8 @@
 
     <section class="invitation">
       <div class="invitation-title-row reveal">
-        <h1 class="invitation-title"><span class="invitation-title-emoji" aria-hidden="true">✉️</span> WEDDING INVITATION</h1>
+        <h1 class="invitation-title"><span class="invitation-title-emoji" aria-hidden="true">✉️</span> WEDDING
+          INVITATION</h1>
         <p class="letter-egg-trigger" id="letter-egg-trigger" tabindex="-1">✉️</p>
       </div>
 
@@ -995,7 +1047,7 @@
         <p>
           스물셋, 캠퍼스에서 시작된 작은 소망이<br />
           칠년의 시간을 지나 평생의 약속이 되었습니다.<br />
-          인생의 크고 작은 문턱을함께 넘으며 <br />
+          인생의 크고 작은 문턱을 함께 넘으며 <br />
           성장해 온 시간은 저희의 사랑을<br />
           더욱 견고하게 만들어 주었습니다.<br />
           이 깊은 믿음 안에서 아름다운 가정을<br />
@@ -1025,35 +1077,38 @@
           <span class="gallery-title">갤러리</span>
         </div>
         <hr class="gallery-separator" />
-        <div class="gallery-photo-grid" id="gallery-photo-grid">
-          <img src="mobile-invitaion-first/mobile-invitation-first01.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first02.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first03.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first04.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first05.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first06.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first07.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first08.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first09.jpeg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first10.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first11.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first12.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first13.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first14.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first15.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first16.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first17.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first18.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first19.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first20.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first21.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first22.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first23.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first24.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first25.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first26.jpg" alt="웨딩 갤러리" />
-          <img src="mobile-invitaion-first/mobile-invitation-first27.jpg" alt="웨딩 갤러리" />
+        <div class="gallery-grid-wrap" id="gallery-grid-wrap">
+          <div class="gallery-photo-grid" id="gallery-photo-grid">
+            <img src="mobile-invitaion-first/mobile-invitation-first01.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first02.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first03.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first04.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first05.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first06.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first07.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first08.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first09.jpeg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first10.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first11.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first12.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first13.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first14.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first15.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first16.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first17.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first18.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first19.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first20.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first21.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first22.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first23.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first24.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first25.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first26.jpg" alt="웨딩 갤러리" />
+            <img src="mobile-invitaion-first/mobile-invitation-first27.jpg" alt="웨딩 갤러리" />
+          </div>
         </div>
+        <button type="button" class="gallery-more-btn" id="gallery-more-btn">더보기 <span class="chevron">›</span></button>
       </div>
 
       <div class="location-section reveal">
@@ -1119,8 +1174,10 @@
         <h2 id="letter-secret-gesture-heading">잠깐만요</h2>
         <p class="letter-secret__gesture-intro">👈 왼쪽을 먼저, 이어서 👉 오른쪽을<br />적당한 시간 안에 순서대로 눌러 주세요.</p>
         <div class="letter-secret__gesture-row">
-          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-left" aria-label="왼쪽">👈</button>
-          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-right" aria-label="오른쪽">👉</button>
+          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-left"
+            aria-label="왼쪽">👈</button>
+          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-right"
+            aria-label="오른쪽">👉</button>
         </div>
         <div id="letter-secret-gest-hint" class="letter-secret__hint" aria-live="polite"></div>
       </div>
@@ -1132,14 +1189,16 @@
         <div id="letter-secret-hint" class="letter-secret__hint" aria-live="polite"></div>
         <div class="letter-secret__actions">
           <button type="button" class="letter-secret__btn" id="letter-secret-cancel">취소</button>
-          <button type="button" class="letter-secret__btn letter-secret__btn--primary" id="letter-secret-submit">확인</button>
+          <button type="button" class="letter-secret__btn letter-secret__btn--primary"
+            id="letter-secret-submit">확인</button>
         </div>
       </div>
       <div id="letter-secret-step-letter" class="letter-secret__step" hidden>
         <p class="letter-secret__to" id="letter-secret-to"></p>
         <div class="letter-secret__body" id="letter-secret-body"></div>
         <div class="letter-secret__actions">
-          <button type="button" class="letter-secret__btn letter-secret__btn--primary" id="letter-secret-done">닫기</button>
+          <button type="button" class="letter-secret__btn letter-secret__btn--primary"
+            id="letter-secret-done">닫기</button>
         </div>
       </div>
     </div>
@@ -1384,10 +1443,72 @@
   </script>
   <script>
     (function () {
+      var VISIBLE_COUNT = 9;
       var grid = document.getElementById("gallery-photo-grid");
-      if (grid) {
-        Array.prototype.forEach.call(grid.querySelectorAll("img"), function (img) {
-          img.classList.add("reveal-item");
+      var wrap = document.getElementById("gallery-grid-wrap");
+      var moreBtn = document.getElementById("gallery-more-btn");
+      var allThumbs = grid ? grid.querySelectorAll("img") : [];
+      var isExpanded = false;
+
+      function getCollapsedHeight() {
+        if (!allThumbs.length) return 0;
+        var first = allThumbs[0];
+        if (!first.offsetHeight) return 0;
+        var gap = parseFloat(getComputedStyle(grid).gap) || 0;
+        var rows = Math.ceil(VISIBLE_COUNT / 3);
+        return first.offsetHeight * rows + gap * (rows - 1);
+      }
+
+      function applyCollapsedHeight() {
+        if (!wrap || isExpanded) return;
+        var h = getCollapsedHeight();
+        if (h > 0) wrap.style.maxHeight = h + "px";
+      }
+
+      if (allThumbs.length > VISIBLE_COUNT) {
+        allThumbs[0].addEventListener("load", applyCollapsedHeight);
+        window.addEventListener("resize", applyCollapsedHeight);
+      } else if (moreBtn) {
+        moreBtn.classList.add("is-hidden");
+        if (wrap) wrap.style.maxHeight = "none";
+      }
+
+      function expandGallery() {
+        if (!wrap) return;
+        isExpanded = true;
+        wrap.style.maxHeight = grid.scrollHeight + "px";
+        wrap.classList.add("is-expanded");
+        if (moreBtn) {
+          moreBtn.innerHTML = '접기 <span class="chevron">›</span>';
+          moreBtn.classList.add("is-expanded");
+        }
+        wrap.addEventListener("transitionend", function handler() {
+          wrap.style.maxHeight = "none";
+          wrap.removeEventListener("transitionend", handler);
+        });
+      }
+
+      function collapseGallery() {
+        if (!wrap) return;
+        isExpanded = false;
+        wrap.classList.remove("is-expanded");
+        wrap.style.maxHeight = grid.scrollHeight + "px";
+        wrap.offsetHeight;
+        applyCollapsedHeight();
+        if (moreBtn) {
+          moreBtn.innerHTML = '더보기 <span class="chevron">›</span>';
+          moreBtn.classList.remove("is-expanded");
+        }
+        var section = wrap.closest(".gallery-section");
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      if (moreBtn) {
+        moreBtn.addEventListener("click", function () {
+          if (isExpanded) collapseGallery();
+          else expandGallery();
         });
       }
 
@@ -1398,7 +1519,7 @@
         revealEls.forEach(function (el) {
           el.classList.add("is-visible");
         });
-        document.querySelectorAll(".reveal-item").forEach(function (img) {
+        document.querySelectorAll(".gallery-photo-grid img").forEach(function (img) {
           img.classList.add("is-visible");
         });
       }
@@ -1420,11 +1541,14 @@
             var el = entry.target;
             el.classList.add("is-visible");
             if (el.getAttribute("data-reveal-stagger-grid") === "true") {
-              var thumbs = el.querySelectorAll(".gallery-photo-grid img.reveal-item");
+              var thumbs = el.querySelectorAll(".gallery-photo-grid img");
               Array.prototype.forEach.call(thumbs, function (img, i) {
                 window.setTimeout(function () {
                   img.classList.add("is-visible");
-                }, 45 * i);
+                }, 45 * Math.min(i, VISIBLE_COUNT - 1));
+              });
+              requestAnimationFrame(function () {
+                requestAnimationFrame(applyCollapsedHeight);
               });
             }
             obs.unobserve(el);

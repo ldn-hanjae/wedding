@@ -356,6 +356,60 @@
   });
 })();
 
+/* 초대장 파트별 등장 + 스크롤 잠금 */
+(function () {
+  var parts = document.querySelectorAll(".invite-part");
+  if (!parts.length) return;
+
+  var LOCK_MS = 1200;
+  var scrollLocked = false;
+
+  function lockScroll() {
+    if (scrollLocked) return;
+    scrollLocked = true;
+    document.body.style.overflow = "hidden";
+    setTimeout(function () {
+      document.body.style.overflow = "";
+      scrollLocked = false;
+    }, LOCK_MS);
+  }
+
+  if (!("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    parts.forEach(function (p) {
+      p.classList.add("is-visible");
+      var words = p.querySelectorAll(".pop-word");
+      words.forEach(function (w) { w.classList.add("is-popping"); });
+    });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var part = entry.target;
+      obs.unobserve(part);
+      part.classList.add("is-visible");
+      lockScroll();
+      var words = part.querySelectorAll(".pop-word");
+      words.forEach(function (w) {
+        setTimeout(function () { w.classList.add("is-popping"); }, 400);
+      });
+    });
+  }, { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.3 });
+
+  parts.forEach(function (p) { io.observe(p); });
+
+  document.querySelectorAll(".pop-word").forEach(function (w) {
+    w.style.cursor = "pointer";
+    w.addEventListener("click", function () {
+      w.classList.remove("is-popping");
+      void w.offsetWidth;
+      w.classList.add("is-popping");
+    });
+  });
+})();
+
 /* 갤러리 라이트박스 (스와이프 애니메이션) */
 (function () {
   var grid = document.getElementById("gallery-photo-grid");

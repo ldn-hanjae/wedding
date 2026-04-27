@@ -184,6 +184,37 @@ body {
   margin-bottom: 1.25rem;
 }
 
+.invite-part {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.invite-part.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pop-word {
+  display: inline-block;
+  font-weight: 700;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pop-word.is-popping {
+  animation: pop-word 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes pop-word {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
 .invitation-body p:last-of-type {
   margin-bottom: 2rem;
 }

@@ -384,6 +384,7 @@
   var touchDeltaX = 0;
   var isSwiping = false;
   var isAnimating = false;
+  var isPinching = false;
   var SWIPE_THRESHOLD = 45;
 
   function wrap(i) { return ((i % count) + count) % count; }
@@ -451,6 +452,8 @@
 
   track.addEventListener("touchstart", function (e) {
     if (isAnimating) return;
+    isPinching = e.touches.length >= 2;
+    if (isPinching) return;
     touchStartX = e.changedTouches[0].clientX;
     touchDeltaX = 0;
     isSwiping = false;
@@ -459,6 +462,11 @@
 
   track.addEventListener("touchmove", function (e) {
     if (isAnimating) return;
+    if (e.touches.length >= 2) {
+      isPinching = true;
+      return;
+    }
+    if (isPinching) return;
     touchDeltaX = e.changedTouches[0].clientX - touchStartX;
     if (Math.abs(touchDeltaX) > 10) isSwiping = true;
     if (isSwiping) {
@@ -470,6 +478,12 @@
 
   track.addEventListener("touchend", function () {
     if (isAnimating) return;
+    if (isPinching) {
+      isPinching = false;
+      isSwiping = false;
+      touchDeltaX = 0;
+      return;
+    }
     if (!isSwiping || Math.abs(touchDeltaX) < SWIPE_THRESHOLD) {
       track.classList.add("is-animating");
       resetTrack();

@@ -367,7 +367,7 @@
     isAnimating = true;
     track.classList.add("is-animating");
 
-    var target = direction < 0 ? "-66.666%" : "0%";
+    var target = direction > 0 ? "-66.666%" : "0%";
     track.style.transform = "translateX(" + target + ")";
 
     track.addEventListener("transitionend", function handler() {

@@ -24,7 +24,7 @@
   }
 })();
 
-/* 편지 이스터에그 */
+/* 편지 이스터에그: 믿음→소망→사랑 순서 클릭 */
 (function () {
   var SECRET_LETTERS = {
     "1": {
@@ -33,18 +33,13 @@
     },
   };
 
-  var trigger = document.getElementById("letter-egg-trigger");
   var dialog = document.getElementById("letter-secret-dialog");
-  if (!trigger || !dialog) return;
+  if (!dialog) return;
 
-  var stepGesture = document.getElementById("letter-secret-step-gesture");
   var stepPass = document.getElementById("letter-secret-step-pass");
   var stepLetter = document.getElementById("letter-secret-step-letter");
   var input = document.getElementById("letter-secret-input");
   var hint = document.getElementById("letter-secret-hint");
-  var gestHint = document.getElementById("letter-secret-gest-hint");
-  var btnGestLeft = document.getElementById("letter-secret-gest-left");
-  var btnGestRight = document.getElementById("letter-secret-gest-right");
   var elTo = document.getElementById("letter-secret-to");
   var elBody = document.getElementById("letter-secret-body");
   var btnSubmit = document.getElementById("letter-secret-submit");
@@ -52,32 +47,42 @@
   var btnDone = document.getElementById("letter-secret-done");
   var btnCloseX = document.getElementById("letter-secret-close-x");
 
-  var tapCount = 0;
-  var tapTimer = null;
-  var lastTouchAt = 0;
-  var TAP_WINDOW_MS = 500;
+  var SEQUENCE = ["믿음", "소망", "사랑"];
+  var SEQ_TIMEOUT_MS = 4000;
+  var seqIndex = 0;
+  var seqTimer = null;
 
-  var RIGHT_WAIT_MS = 2800;
-  var gestureExpectLeft = true;
-  var gestureDeadlineTimer = null;
-
-  function clearGestureDeadline() {
-    if (gestureDeadlineTimer) {
-      window.clearTimeout(gestureDeadlineTimer);
-      gestureDeadlineTimer = null;
-    }
+  function resetSequence() {
+    seqIndex = 0;
+    if (seqTimer) { clearTimeout(seqTimer); seqTimer = null; }
   }
 
-  function resetGestureChallenge() {
-    clearGestureDeadline();
-    gestureExpectLeft = true;
-    if (gestHint) gestHint.textContent = "";
-  }
+  var popWords = document.querySelectorAll(".pop-word");
+  popWords.forEach(function (w) {
+    w.addEventListener("click", function () {
+      if (dialog.classList.contains("is-open")) return;
+      var text = w.textContent.trim();
+      if (text !== SEQUENCE[seqIndex]) {
+        resetSequence();
+        if (text === SEQUENCE[0]) {
+          seqIndex = 1;
+          seqTimer = setTimeout(resetSequence, SEQ_TIMEOUT_MS);
+        }
+        return;
+      }
+      seqIndex++;
+      if (seqTimer) clearTimeout(seqTimer);
+      if (seqIndex >= SEQUENCE.length) {
+        resetSequence();
+        openDialog();
+      } else {
+        seqTimer = setTimeout(resetSequence, SEQ_TIMEOUT_MS);
+      }
+    });
+  });
 
   function resetSteps() {
-    resetGestureChallenge();
-    if (stepGesture) stepGesture.removeAttribute("hidden");
-    if (stepPass) stepPass.setAttribute("hidden", "");
+    if (stepPass) stepPass.removeAttribute("hidden");
     if (stepLetter) stepLetter.setAttribute("hidden", "");
     if (input) input.value = "";
     if (hint) hint.textContent = "";
@@ -85,119 +90,20 @@
     if (elBody) elBody.textContent = "";
   }
 
-  function showPasswordStep() {
-    clearGestureDeadline();
-    if (stepGesture) stepGesture.setAttribute("hidden", "");
-    if (stepPass) stepPass.removeAttribute("hidden");
-    dialog.setAttribute("aria-labelledby", "letter-secret-heading");
-    window.setTimeout(function () {
-      if (input) input.focus();
-    }, 0);
-  }
-
   function openDialog() {
     resetSteps();
-    dialog.setAttribute("aria-labelledby", "letter-secret-gesture-heading");
     dialog.removeAttribute("hidden");
     dialog.classList.add("is-open");
     document.body.classList.add("letter-secret-open");
-    window.setTimeout(function () {
-      if (btnGestLeft) btnGestLeft.focus();
-    }, 0);
+    setTimeout(function () { if (input) input.focus(); }, 0);
   }
 
   function closeDialog() {
-    clearGestureDeadline();
     dialog.classList.remove("is-open");
     dialog.setAttribute("hidden", "");
     document.body.classList.remove("letter-secret-open");
     resetSteps();
-    trigger.focus();
   }
-
-  function registerTap() {
-    if (dialog.classList.contains("is-open")) return;
-    tapCount++;
-    if (tapTimer) clearTimeout(tapTimer);
-    tapTimer = window.setTimeout(function () {
-      tapCount = 0;
-      tapTimer = null;
-    }, TAP_WINDOW_MS);
-    if (tapCount >= 2) {
-      tapCount = 0;
-      if (tapTimer) {
-        clearTimeout(tapTimer);
-        tapTimer = null;
-      }
-      openDialog();
-    }
-  }
-
-  trigger.addEventListener(
-    "touchstart",
-    function () {
-      lastTouchAt = Date.now();
-      registerTap();
-    },
-    { passive: true }
-  );
-
-  trigger.addEventListener("click", function () {
-    if (Date.now() - lastTouchAt < 400) return;
-    registerTap();
-  });
-
-  function onGestureWrongOrder() {
-    resetGestureChallenge();
-    if (gestHint) gestHint.textContent = "왼쪽(👈)부터 눌러 주세요.";
-  }
-
-  function onGestureTimeout() {
-    gestureDeadlineTimer = null;
-    gestureExpectLeft = true;
-    if (gestHint) gestHint.textContent = "시간이 조금 지났어요. 다시 왼쪽부터 눌러 주세요.";
-  }
-
-  function onGestureLeftTap() {
-    if (!stepGesture || stepGesture.hasAttribute("hidden")) return;
-    if (!gestureExpectLeft) {
-      if (gestHint) gestHint.textContent = "이어서 오른쪽(👉)을 눌러 주세요.";
-      return;
-    }
-    clearGestureDeadline();
-    gestureExpectLeft = false;
-    if (gestHint) gestHint.textContent = "";
-    gestureDeadlineTimer = window.setTimeout(onGestureTimeout, RIGHT_WAIT_MS);
-  }
-
-  function onGestureRightTap() {
-    if (!stepGesture || stepGesture.hasAttribute("hidden")) return;
-    if (gestureExpectLeft) {
-      onGestureWrongOrder();
-      return;
-    }
-    clearGestureDeadline();
-    gestureExpectLeft = true;
-    showPasswordStep();
-  }
-
-  if (btnGestLeft) {
-    btnGestLeft.addEventListener("click", onGestureLeftTap);
-  }
-  if (btnGestRight) {
-    btnGestRight.addEventListener("click", onGestureRightTap);
-  }
-
-  dialog.addEventListener("keydown", function (e) {
-    if (!stepGesture || stepGesture.hasAttribute("hidden")) return;
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      onGestureLeftTap();
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      onGestureRightTap();
-    }
-  });
 
   function trySubmit() {
     var raw = (input && input.value) || "";
@@ -622,5 +528,87 @@
   audio.addEventListener("ended", function () {
     audio.currentTime = 0;
     tryPlay().catch(function () { });
+  });
+})();
+
+/* ── Account Toggle & Copy ── */
+(function () {
+  var toggles = document.querySelectorAll(".account-toggle");
+  toggles.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var targetId = btn.getAttribute("data-target");
+      var list = document.getElementById(targetId);
+      if (!list) return;
+
+      var isOpen = btn.classList.contains("is-open");
+      if (isOpen) {
+        list.style.maxHeight = list.scrollHeight + "px";
+        requestAnimationFrame(function () {
+          list.style.maxHeight = "0";
+          list.style.opacity = "0";
+        });
+        btn.classList.remove("is-open");
+        list.addEventListener("transitionend", function handler() {
+          list.hidden = true;
+          list.classList.remove("is-open");
+          list.removeEventListener("transitionend", handler);
+        });
+      } else {
+        list.hidden = false;
+        list.classList.add("is-open");
+        list.style.maxHeight = "0";
+        requestAnimationFrame(function () {
+          list.style.maxHeight = list.scrollHeight + "px";
+          list.style.opacity = "1";
+        });
+        btn.classList.add("is-open");
+      }
+    });
+  });
+
+  var toast = document.createElement("div");
+  toast.className = "account-copy-toast";
+  toast.textContent = "복사했습니다";
+  document.body.appendChild(toast);
+  var toastTimer;
+
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;left:-9999px;top:-9999px;opacity:0";
+    document.body.appendChild(ta);
+
+    var isiOS = navigator.userAgent.match(/ipad|iphone/i);
+    if (isiOS) {
+      var range = document.createRange();
+      range.selectNodeContents(ta);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      ta.setSelectionRange(0, text.length);
+    } else {
+      ta.select();
+    }
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+
+  document.querySelectorAll(".account-copy-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = btn.getAttribute("data-account");
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).catch(function () {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+      toast.classList.add("is-visible");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        toast.classList.remove("is-visible");
+      }, 1500);
+    });
   });
 })();

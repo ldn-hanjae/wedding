@@ -52,9 +52,7 @@
 
     <section class="invitation">
       <div class="invitation-title-row reveal">
-        <h1 class="invitation-title"><span class="invitation-title-emoji" aria-hidden="true">✉️</span> WEDDING
-          INVITATION</h1>
-        <p class="letter-egg-trigger" id="letter-egg-trigger" tabindex="-1">✉️</p>
+        <h1 class="invitation-title">WEDDING INVITATION</h1>
       </div>
 
       <div class="invitation-body reveal" id="invitation-body">
@@ -153,6 +151,78 @@
           : 언양교회 앞(09:30 출발) → 셀레스메리홀(18:30 출발)
         </div>
       </div>
+
+      <div class="account-section reveal">
+        <div class="account-header">
+          <span class="account-title">마음 전하실 곳</span>
+        </div>
+        <hr class="account-separator" />
+        <p class="account-desc">
+          멀리서도 축하의 마음을<br />
+          전하고 싶으신 분들을 위해<br />
+          계좌번호를 안내드립니다.
+        </p>
+        <p class="account-desc">
+          소중한 축하를 보내주셔서 감사드리며,<br />
+          따뜻한 마음에 깊이 감사드립니다.
+        </p>
+        <div class="account-group">
+          <button type="button" class="account-toggle" data-target="account-groom">
+            <span class="account-toggle-label">신랑측</span>
+            <span class="account-toggle-chevron">›</span>
+          </button>
+          <div class="account-list" id="account-groom" hidden>
+            <div class="account-item">
+              <div class="account-item-body">
+                <span class="account-role account-role--groom">신랑</span>
+                <span class="account-number">815062-56-097755</span>
+                <span class="account-bank-name">농협은행 배한재</span>
+              </div>
+              <button type="button" class="account-copy-btn" data-account="815062-56-097755">복사</button>
+            </div>
+            <div class="account-item">
+              <div class="account-item-body">
+                <span class="account-role account-role--groom">신랑 아버지</span>
+                <span class="account-number">855-02-015408</span>
+                <span class="account-bank-name">농협은행 배재열</span>
+              </div>
+              <button type="button" class="account-copy-btn" data-account="855-02-015408">복사</button>
+            </div>
+            <div class="account-item">
+              <div class="account-item-body">
+                <span class="account-role account-role--groom">신랑 어머니</span>
+                <span class="account-number">376-12-123681</span>
+                <span class="account-bank-name">농협은행 김명희</span>
+              </div>
+              <button type="button" class="account-copy-btn" data-account="376-12-123681">복사</button>
+            </div>
+          </div>
+        </div>
+        <div class="account-group">
+          <button type="button" class="account-toggle account-toggle--bride" data-target="account-bride">
+            <span class="account-toggle-label">신부측</span>
+            <span class="account-toggle-chevron">›</span>
+          </button>
+          <div class="account-list" id="account-bride" hidden>
+            <div class="account-item">
+              <div class="account-item-body">
+                <span class="account-role account-role--bride">신부</span>
+                <span class="account-number">224602-04-220820</span>
+                <span class="account-bank-name">국민은행 임지선</span>
+              </div>
+              <button type="button" class="account-copy-btn" data-account="22460204220820">복사</button>
+            </div>
+            <div class="account-item">
+              <div class="account-item-body">
+                <span class="account-role account-role--bride">신부 어머니</span>
+                <span class="account-number">3333-286590970</span>
+                <span class="account-bank-name">카카오뱅크 박미애</span>
+              </div>
+              <button type="button" class="account-copy-btn" data-account="3333-286590970">복사</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 
@@ -177,22 +247,11 @@
   </div>
 
   <div id="letter-secret-dialog" class="letter-secret" role="dialog" aria-modal="true"
-    aria-labelledby="letter-secret-gesture-heading" hidden>
+    aria-labelledby="letter-secret-heading" hidden>
     <div class="letter-secret__backdrop" aria-hidden="true"></div>
     <div class="letter-secret__panel">
       <button type="button" class="letter-secret__close" id="letter-secret-close-x" aria-label="닫기">×</button>
-      <div id="letter-secret-step-gesture" class="letter-secret__step">
-        <h2 id="letter-secret-gesture-heading">잠깐만요</h2>
-        <p class="letter-secret__gesture-intro">👈 왼쪽을 먼저, 이어서 👉 오른쪽을<br />적당한 시간 안에 순서대로 눌러 주세요.</p>
-        <div class="letter-secret__gesture-row">
-          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-left"
-            aria-label="왼쪽">👈</button>
-          <button type="button" class="letter-secret__gesture-btn" id="letter-secret-gest-right"
-            aria-label="오른쪽">👉</button>
-        </div>
-        <div id="letter-secret-gest-hint" class="letter-secret__hint" aria-live="polite"></div>
-      </div>
-      <div id="letter-secret-step-pass" class="letter-secret__step" hidden>
+      <div id="letter-secret-step-pass" class="letter-secret__step">
         <h2 id="letter-secret-heading">비밀번호를 입력해 주세요</h2>
         <label class="visually-hidden" for="letter-secret-input">비밀번호</label>
         <input type="password" id="letter-secret-input" class="letter-secret__field" autocomplete="off"

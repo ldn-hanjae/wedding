@@ -142,7 +142,7 @@ body {
 }
 
 .invitation-title-row {
-  --invitation-title-size: clamp(1.12rem, 4.1vw, 1.42rem);
+  --invitation-title-size: clamp(1.35rem, 5.2vw, 1.75rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,16 +158,6 @@ body {
   text-align: center;
   letter-spacing: 0.12em;
   margin: 0;
-}
-
-.letter-egg-trigger {
-  margin: 0;
-  font-size: var(--invitation-title-size);
-  line-height: 1;
-  cursor: default;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .invitation-body {
@@ -256,13 +246,11 @@ body {
 .bus-section {
   margin-top: 2.5rem;
   text-align: left;
-  padding: 0 0.5rem;
 }
 
 .bus-header {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 0.75rem;
 }
 
@@ -371,13 +359,11 @@ body {
 .location-section {
   margin-top: 2.5rem;
   text-align: left;
-  padding: 0 0.5rem;
 }
 
 .location-header {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 0.75rem;
 }
 
@@ -481,13 +467,11 @@ body {
 .gallery-section {
   margin-top: 2.5rem;
   text-align: left;
-  padding: 0 0.5rem;
 }
 
 .gallery-header {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 0.75rem;
 }
 
@@ -627,8 +611,9 @@ body.gallery-lightbox-open {
 
 .gallery-lightbox__stage {
   position: absolute;
-  inset: 0;
   top: 0;
+  left: 0;
+  right: 0;
   bottom: 3.75rem;
   z-index: 1;
   overflow: hidden;
@@ -835,54 +820,6 @@ body.letter-secret-open {
   line-height: 1.35;
 }
 
-.invitation-title-emoji {
-  margin-right: 0.2em;
-  font-size: var(--invitation-title-size);
-  letter-spacing: 0;
-  vertical-align: 0.08em;
-}
-
-.letter-secret__gesture-intro {
-  margin: 0 0 1rem;
-  font-size: 0.88rem;
-  line-height: 1.55;
-  font-weight: 300;
-  text-align: center;
-  color: var(--text-body);
-}
-
-.letter-secret__gesture-row {
-  display: flex;
-  gap: 0.65rem;
-  justify-content: center;
-  margin-bottom: 0.65rem;
-}
-
-.letter-secret__gesture-btn {
-  flex: 1;
-  max-width: 8rem;
-  min-height: 3.75rem;
-  font-size: 2rem;
-  line-height: 1;
-  border-radius: 10px;
-  border: 1px solid #c5c5c0;
-  background: #fafaf8;
-  cursor: pointer;
-  font-family: inherit;
-  padding: 0.35rem;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-.letter-secret__gesture-btn:hover {
-  border-color: var(--text-dark);
-  background: #fff;
-}
-
-.letter-secret__gesture-btn:active {
-  background: #eceee9;
-}
-
 .letter-secret__field {
   width: 100%;
   box-sizing: border-box;
@@ -1030,4 +967,178 @@ body.letter-secret-open {
 
 .bgm-toggle.is-playing .bgm-icon-pause {
   display: block;
+}
+
+/* ── Account Section ── */
+.account-section {
+  margin-top: 4rem;
+}
+
+.account-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.account-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-body);
+}
+
+.account-separator {
+  border: none;
+  border-top: 1px dotted #bbb;
+  margin: 0 0 1rem 0;
+}
+
+.account-desc {
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.account-group {
+  margin-top: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.account-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 1.2rem;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.account-toggle:active {
+  background: #f5f5f5;
+}
+
+.account-toggle-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #7ab8d9;
+}
+
+.account-toggle--bride .account-toggle-label {
+  color: #d4827e;
+}
+
+.account-toggle-chevron {
+  font-size: 1.4rem;
+  color: #aaa;
+  transition: transform 0.3s;
+  line-height: 1;
+  transform: rotate(90deg);
+}
+
+.account-toggle.is-open {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.account-toggle.is-open .account-toggle-chevron {
+  transform: rotate(-90deg);
+}
+
+.account-list {
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  max-height: 0;
+  opacity: 0;
+}
+
+.account-list.is-open {
+  opacity: 1;
+}
+
+.account-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.1rem 1.2rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.account-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.account-role {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+  width: fit-content;
+  padding-bottom: 1px;
+  border-bottom: 1px solid currentColor;
+}
+
+.account-role--groom {
+  color: #7ab8d9;
+}
+
+.account-role--bride {
+  color: #d4827e;
+}
+
+.account-number {
+  font-size: 0.92rem;
+  color: #444;
+  letter-spacing: 0.02em;
+}
+
+.account-bank-name {
+  font-size: 0.82rem;
+  color: #999;
+}
+
+.account-copy-btn {
+  margin-left: 1rem;
+  margin-top: 0.2rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  color: #666;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+
+.account-copy-btn:active {
+  background: #f0f0f0;
+}
+
+.account-copy-toast {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 0.6rem 1.4rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.account-copy-toast.is-visible {
+  opacity: 1;
 }

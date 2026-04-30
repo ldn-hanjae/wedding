@@ -70,14 +70,11 @@ body {
 .cover-hero-visual {
   position: relative;
   width: 100%;
-  /* og-image.jpg(682×1024)와 같은 비율 → 너비가 커져도 상·하 잘림 없음 */
-  height: auto;
   min-height: 0;
-  aspect-ratio: 682 / 1024;
   flex-shrink: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
   overflow: hidden;
   background-color: var(--bg);
 }
@@ -86,42 +83,22 @@ body {
   position: relative;
   z-index: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
+  flex-shrink: 0;
   object-fit: contain;
   object-position: center center;
 }
 
-@media (max-width: 480px) {
-  .cover-hero-visual {
-    /* 모바일: 첫 화면을 뷰포트 높이에 맞춤. aspect-ratio는 해제해 dvh가 적용되게 함 */
-    aspect-ratio: unset;
-    height: 100vh;
-    min-height: 100vh;
-    height: 100dvh;
-    min-height: 100dvh;
-    /* center면 img가 세로 가운데로 떠서 상단 여백처럼 보임 */
-    align-items: stretch;
-  }
-
-  .cover-hero-visual img {
-    object-position: center top;
-  }
-}
-
 .cover-overlay-bottom {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  flex-shrink: 0;
   padding: 1rem max(1rem, env(safe-area-inset-right, 0px)) max(1.15rem, env(safe-area-inset-bottom, 0px)) 1rem;
   text-align: right;
   font-size: 0.9rem;
   color: var(--text);
   line-height: 1.55;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(248, 248, 244, 0.92) 0%, rgba(248, 248, 244, 0.5) 55%, transparent 100%);
+  background: var(--bg);
 }
 
 .cover-overlay-bottom .venue {
@@ -187,6 +164,23 @@ body {
   transform: translateY(0);
 }
 
+/* 키워드(소망·사랑·믿음): 상승은 부모와 역보정으로 고정 + 개별 패이드인 */
+.invite-part .pop-word {
+  opacity: 0;
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1) var(--pop-fade-delay, 0.14s);
+}
+
+.invite-part:not(.is-visible) .pop-word {
+  transform: translateY(-1.5rem);
+}
+
+.invite-part.is-visible .pop-word {
+  transform: translateY(0);
+  opacity: 1;
+}
+
 .pop-word {
   display: inline-block;
   font-weight: inherit;
@@ -197,19 +191,48 @@ body {
   --pop-color: var(--text-body);
 }
 
-.pop-word--faith { --pop-color: #2563eb; }
-.pop-word--hope  { --pop-color: #eab308; }
-.pop-word--love  { --pop-color: #dc2626; }
+.pop-word--hope  { --pop-color: #eab308; --pop-fade-delay: 0.12s; }
+.pop-word--love  { --pop-color: #dc2626; --pop-fade-delay: 0.24s; }
+.pop-word--faith { --pop-color: #2563eb; --pop-fade-delay: 0.36s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .invite-part .pop-word {
+    opacity: inherit;
+    transition: none;
+    --pop-fade-delay: 0s;
+  }
+
+  .invite-part.is-visible .pop-word {
+    opacity: 1;
+  }
+
+  .pop-word.is-wiggling {
+    animation: none;
+  }
+}
+
+.pop-word.is-wiggling {
+  animation: pop-word-wiggle 1.15s ease-in-out;
+}
 
 .pop-word.is-popping {
   animation: pop-word 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+@keyframes pop-word-wiggle {
+  0%,
+  100% { transform: translateY(0) translateX(0); }
+  22% { transform: translateY(0) translateX(-0.7px); }
+  44% { transform: translateY(0) translateX(0.55px); }
+  62% { transform: translateY(0) translateX(-0.35px); }
+  78% { transform: translateY(0) translateX(0.22px); }
+}
+
 @keyframes pop-word {
-  0%   { transform: scale(1);    color: inherit; }
-  40%  { transform: scale(1.35); color: var(--pop-color); }
-  70%  { transform: scale(1.1);  color: var(--pop-color); }
-  100% { transform: scale(1);    color: inherit; }
+  0%   { transform: translateY(0) scale(1);    color: inherit;     font-weight: inherit; }
+  40%  { transform: translateY(0) scale(1.35); color: var(--pop-color); font-weight: 600; }
+  70%  { transform: translateY(0) scale(1.1);  color: var(--pop-color); font-weight: 500; }
+  100% { transform: translateY(0) scale(1);    color: inherit;     font-weight: inherit; }
 }
 
 .invitation-body p:last-of-type {

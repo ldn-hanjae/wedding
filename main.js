@@ -290,14 +290,52 @@
     }
   }
 
-  document.querySelectorAll(".pop-word").forEach(function (w) {
+  var popWords = document.querySelectorAll(".pop-word");
+  popWords.forEach(function (w) {
     w.style.cursor = "pointer";
     w.addEventListener("click", function () {
       w.classList.remove("is-popping");
       void w.offsetWidth;
       w.classList.add("is-popping");
     });
+    w.addEventListener("animationend", function (e) {
+      if (e.animationName === "pop-word-wiggle") {
+        w.classList.remove("is-wiggling");
+      }
+    });
   });
+
+  var WIGGLE_ORDER_SEL = [".pop-word--faith", ".pop-word--hope", ".pop-word--love"];
+  var wiggleWords = WIGGLE_ORDER_SEL.map(function (sel) {
+    return document.querySelector(sel);
+  }).filter(Boolean);
+
+  function randomInterWiggleGapMs() {
+    return Math.floor(1000 + Math.random() * 2001);
+  }
+
+  var WIGGLE_INTERVAL_MS = 10000;
+  if (
+    wiggleWords.length &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    setInterval(function () {
+      var delayMs = 0;
+      wiggleWords.forEach(function (w, i) {
+        if (i > 0) delayMs += randomInterWiggleGapMs();
+        window.setTimeout(function () {
+          var part = w.closest(".invite-part");
+          if (!part || !part.classList.contains("is-visible")) return;
+          if (w.classList.contains("is-popping")) return;
+          var p = w.closest(".invite-part");
+          if (!p || !p.classList.contains("is-visible")) return;
+          w.classList.remove("is-wiggling");
+          void w.offsetWidth;
+          w.classList.add("is-wiggling");
+        }, delayMs);
+      });
+    }, WIGGLE_INTERVAL_MS);
+  }
 })();
 
 /* 갤러리 라이트박스 (스와이프 애니메이션) */

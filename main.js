@@ -74,7 +74,15 @@
       if (seqTimer) clearTimeout(seqTimer);
       if (seqIndex >= SEQUENCE.length) {
         resetSequence();
-        openDialog();
+        var openOnce = false;
+        var triggerOpen = function () {
+          if (openOnce) return;
+          openOnce = true;
+          w.removeEventListener("animationend", triggerOpen);
+          openDialog();
+        };
+        w.addEventListener("animationend", triggerOpen);
+        setTimeout(triggerOpen, 800);
       } else {
         seqTimer = setTimeout(resetSequence, SEQ_TIMEOUT_MS);
       }
@@ -262,49 +270,25 @@
   });
 })();
 
-/* 초대장 파트별 등장 + 스크롤 잠금 */
+/* 초대장 파트별 등장 + 키워드 클릭 팝 효과 */
 (function () {
   var parts = document.querySelectorAll(".invite-part");
-  if (!parts.length) return;
-
-  var LOCK_MS = 1200;
-  var scrollLocked = false;
-
-  function lockScroll() {
-    if (scrollLocked) return;
-    scrollLocked = true;
-    document.body.style.overflow = "hidden";
-    setTimeout(function () {
-      document.body.style.overflow = "";
-      scrollLocked = false;
-    }, LOCK_MS);
+  if (parts.length) {
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      parts.forEach(function (p) { p.classList.add("is-visible"); });
+    } else {
+      var io = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var part = entry.target;
+          obs.unobserve(part);
+          part.classList.add("is-visible");
+        });
+      }, { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.3 });
+      parts.forEach(function (p) { io.observe(p); });
+    }
   }
-
-  if (!("IntersectionObserver" in window) ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    parts.forEach(function (p) {
-      p.classList.add("is-visible");
-      var words = p.querySelectorAll(".pop-word");
-      words.forEach(function (w) { w.classList.add("is-popping"); });
-    });
-    return;
-  }
-
-  var io = new IntersectionObserver(function (entries, obs) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      var part = entry.target;
-      obs.unobserve(part);
-      part.classList.add("is-visible");
-      lockScroll();
-      var words = part.querySelectorAll(".pop-word");
-      words.forEach(function (w) {
-        setTimeout(function () { w.classList.add("is-popping"); }, 400);
-      });
-    });
-  }, { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.3 });
-
-  parts.forEach(function (p) { io.observe(p); });
 
   document.querySelectorAll(".pop-word").forEach(function (w) {
     w.style.cursor = "pointer";

@@ -189,20 +189,27 @@ body {
 
 .pop-word {
   display: inline-block;
-  font-weight: 700;
+  font-weight: inherit;
+  color: inherit;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
+  --pop-color: var(--text-body);
 }
 
+.pop-word--faith { --pop-color: #2563eb; }
+.pop-word--hope  { --pop-color: #eab308; }
+.pop-word--love  { --pop-color: #dc2626; }
+
 .pop-word.is-popping {
-  animation: pop-word 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: pop-word 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes pop-word {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.35); }
-  100% { transform: scale(1); }
+  0%   { transform: scale(1);    color: inherit; }
+  40%  { transform: scale(1.35); color: var(--pop-color); }
+  70%  { transform: scale(1.1);  color: var(--pop-color); }
+  100% { transform: scale(1);    color: inherit; }
 }
 
 .invitation-body p:last-of-type {

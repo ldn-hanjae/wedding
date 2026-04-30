@@ -70,7 +70,7 @@ body {
 .cover-hero-visual {
   position: relative;
   width: 100%;
-  /* og-image.png(682×1024)와 같은 비율 → 너비가 커져도 상·하 잘림 없음 */
+  /* og-image.jpg(682×1024)와 같은 비율 → 너비가 커져도 상·하 잘림 없음 */
   height: auto;
   min-height: 0;
   aspect-ratio: 682 / 1024;

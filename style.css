@@ -622,8 +622,15 @@ body {
   display: none !important;
 }
 
+html:has(body.gallery-lightbox-open) {
+  overflow: hidden;
+  overscroll-behavior: none;
+  height: 100%;
+}
+
 body.gallery-lightbox-open {
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .gallery-lightbox__backdrop {

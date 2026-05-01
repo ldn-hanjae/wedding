@@ -368,6 +368,7 @@
   var isAnimating = false;
   var isPinching = false;
   var SWIPE_THRESHOLD = 45;
+  var savedScrollY = 0;
 
   function wrap(i) { return ((i % count) + count) % count; }
 
@@ -403,6 +404,12 @@
   function open(at) {
     loadSlides(at);
     resetTrack();
+    savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = "-" + savedScrollY + "px";
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
     lightbox.removeAttribute("hidden");
     lightbox.classList.add("is-open");
     document.body.classList.add("gallery-lightbox-open");
@@ -412,6 +419,12 @@
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("hidden", "");
     document.body.classList.remove("gallery-lightbox-open");
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, savedScrollY);
     imgPrev.removeAttribute("src");
     imgCurr.removeAttribute("src");
     imgNext.removeAttribute("src");

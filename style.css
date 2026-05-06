@@ -813,102 +813,353 @@ body.letter-secret-open {
   z-index: 1;
   width: 100%;
   max-width: min(22rem, calc(100vw - 2rem));
-  max-height: min(85vh, calc(100vh - 2rem));
-  max-height: min(85dvh, calc(100dvh - 2rem));
-  overflow: auto;
-  background: var(--bg);
-  color: var(--text-body);
-  border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-  padding: 1.35rem 1.25rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0.5rem 0.75rem;
   box-sizing: border-box;
 }
 
 .letter-secret__close {
   position: absolute;
-  top: 0.4rem;
-  right: 0.4rem;
-  width: 1.75rem;
-  height: 1.75rem;
+  top: 0;
+  right: 0.25rem;
+  width: 2rem;
+  height: 2rem;
   border: none;
   background: transparent;
-  color: var(--text-body);
-  font-size: 1.35rem;
+  color: #fff;
+  font-size: 1.5rem;
   font-weight: 300;
   line-height: 1;
   cursor: pointer;
   font-family: inherit;
   padding: 0;
+  z-index: 60;
   -webkit-tap-highlight-color: transparent;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .letter-secret__close:hover {
-  color: var(--text-dark);
+  color: #f0f0f0;
 }
 
-.letter-secret__step h2 {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: var(--text-dark);
-  text-align: center;
-  letter-spacing: 0.06em;
-  margin: 0 1.75rem 1rem 0;
-  line-height: 1.35;
-}
-
-.letter-secret__field {
+/* === Envelope === */
+.letter-envelope {
+  position: relative;
   width: 100%;
-  box-sizing: border-box;
-  padding: 0.65rem 0.75rem;
-  margin-bottom: 0.65rem;
-  font-family: inherit;
-  font-size: 0.95rem;
-  border: 1px solid #c5c5c0;
-  border-radius: 6px;
-  color: var(--text-body);
-  background: #fff;
-}
-
-.letter-secret__field:focus {
-  outline: none;
-  border-color: var(--text-dark);
-  box-shadow: 0 0 0 2px rgba(92, 111, 90, 0.2);
-}
-
-.letter-secret__hint {
-  min-height: 1.25rem;
-  font-size: 0.82rem;
-  color: #8b3a3a;
-  margin-bottom: 0.75rem;
-}
-
-.letter-secret__actions {
+  max-width: 320px;
+  height: 260px;
+  perspective: 1500px;
   display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
-.letter-secret__btn {
-  font-family: inherit;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.95rem;
-  border-radius: 6px;
-  border: 1px solid var(--text-dark);
+.letter-envelope__body {
+  position: absolute;
+  inset: 30px 0 0;
+  height: 200px;
+  background: #d7c9b5;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+  z-index: 10;
+  transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
+}
+
+.letter-envelope__flap {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s ease-in-out;
+}
+
+.letter-envelope__flap--left {
+  background: #c9bcab;
+  clip-path: polygon(0 0, 52% 50%, 0 100%);
+  z-index: 11;
+  border-radius: 12px 0 0 12px;
+}
+
+.letter-envelope__flap--right {
+  background: #c9bcab;
+  clip-path: polygon(100% 0, 48% 50%, 100% 100%);
+  z-index: 11;
+  border-radius: 0 12px 12px 0;
+}
+
+.letter-envelope__flap--bottom {
+  background: #d7c9b5;
+  clip-path: polygon(0 100%, 50% 45%, 100% 100%);
+  z-index: 12;
+  filter: brightness(1.02);
+  border-radius: 0 0 12px 12px;
+}
+
+.letter-envelope__flap--top {
+  background: #d7c9b5;
+  clip-path: polygon(0 0, 50% 55%, 100% 0);
+  z-index: 13;
+  transform-origin: top;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  filter: brightness(1.05);
+  border-radius: 12px 12px 0 0;
+}
+
+.letter-envelope__zone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88%;
+  max-width: 270px;
+  height: 130px;
+  pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.letter-envelope__zone > * {
+  pointer-events: auto;
+}
+
+/* === Sealing Wax === */
+.letter-seal {
+  position: absolute;
+  border: none;
+  background: transparent;
+  padding: 0;
   cursor: pointer;
+  z-index: 31;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
   -webkit-tap-highlight-color: transparent;
-  background: var(--bg);
+}
+
+.letter-seal__round {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 80px;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e8e8e8 40%, #b8b8b8 100%);
+  border-radius: 65% 55% 60% 50% / 45% 55% 48% 52%;
+  box-shadow:
+    0 8px 15px rgba(0, 0, 0, 0.18),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.8),
+    inset -4px -4px 10px rgba(0, 0, 0, 0.12),
+    inset 0 0 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.letter-seal__round::before {
+  content: '';
+  position: absolute;
+  width: 105px;
+  height: 56px;
+  border-radius: 50px / 28px;
+  background: rgba(0, 0, 0, 0.02);
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.18),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.letter-seal__text {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.55rem;
+  color: rgba(60, 60, 60, 0.5);
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+  position: relative;
+  z-index: 1;
+  transform: translateY(-2px);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.letter-seal:hover .letter-seal__round,
+.letter-seal:focus-visible .letter-seal__round {
+  transform: scale(1.04) rotate(0.5deg);
+}
+
+.letter-seal:focus-visible {
+  outline: none;
+}
+
+/* === Password Input Layer === */
+.letter-password {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  z-index: 40;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s;
+}
+
+.letter-envelope.is-input .letter-seal {
+  opacity: 0;
+  transform: scale(0.5);
+  visibility: hidden;
+}
+
+.letter-envelope.is-input .letter-password {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition-delay: 0.15s;
+}
+
+.letter-password__label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0 0 0.6rem;
+  opacity: 0.85;
+}
+
+.letter-password__input {
+  width: 200px;
+  max-width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #b8b8b8;
+  outline: none;
+  color: var(--text-body);
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  padding: 0.5rem 0;
+  transition: border-color 0.3s;
+}
+
+.letter-password__input:focus {
+  border-color: var(--text-dark);
+}
+
+.letter-password__input::placeholder {
+  font-size: 0.78rem;
+  letter-spacing: normal;
+  color: #b8b8b8;
+}
+
+.letter-password__hint {
+  min-height: 0.95rem;
+  font-size: 0.72rem;
+  color: #8b3a3a;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0.5rem 0 0;
+}
+
+.letter-password__hint:empty {
+  visibility: hidden;
+}
+
+.letter-password__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 0.85rem;
+}
+
+.letter-password__btn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #999;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.2s;
+}
+
+.letter-password__btn:hover,
+.letter-password__btn:focus-visible {
+  color: var(--text-dark);
+  outline: none;
+}
+
+.letter-password__btn--primary {
   color: var(--text-dark);
 }
 
-.letter-secret__btn--primary {
-  background: var(--text-dark);
-  color: var(--bg);
-  border-color: var(--text-dark);
+.letter-envelope.is-shaking .letter-password {
+  animation: letter-shake 0.4s ease-in-out;
 }
 
-.letter-secret__to {
+@keyframes letter-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+}
+
+/* === Letter Paper === */
+.letter-paper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: var(--bg);
+  background-image: linear-gradient(#e5dcc3 1px, transparent 1px);
+  background-size: 100% 1.5rem;
+  border: 1px solid #e5dcc3;
+  border-radius: 16px;
+  padding: 2.25rem 1.4rem 3.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s ease 0.3s,
+    visibility 0.7s ease 0.3s,
+    transform 0.7s ease 0.3s;
+  overflow-y: auto;
+  z-index: 5;
+  -webkit-overflow-scrolling: touch;
+}
+
+.letter-paper::-webkit-scrollbar {
+  width: 4px;
+}
+
+.letter-paper::-webkit-scrollbar-thumb {
+  background: #e5dcc3;
+  border-radius: 10px;
+}
+
+.letter-envelope.is-open .letter-envelope__body {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.05);
+}
+
+.letter-envelope.is-open .letter-envelope__flap--top {
+  transform: rotateX(180deg);
+}
+
+.letter-envelope.is-open .letter-envelope__zone {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.letter-envelope.is-open .letter-paper {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  z-index: 50;
+}
+
+.letter-paper__to {
   font-family: "Cormorant Garamond", serif;
   font-size: 1.05rem;
   color: var(--text-dark);
@@ -917,18 +1168,35 @@ body.letter-secret-open {
   letter-spacing: 0.04em;
 }
 
-.letter-secret__body {
-  font-size: 0.92rem;
-  line-height: 1.85;
-  font-weight: 300;
+.letter-paper__body {
+  font-size: 0.95rem;
+  line-height: 1.5rem;
+  color: #3e2723;
   white-space: pre-line;
-  margin-bottom: 1.25rem;
   overflow-wrap: break-word;
   word-break: keep-all;
 }
 
-.letter-secret__step[hidden] {
-  display: none !important;
+.letter-paper__close {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  border: 1px solid var(--text-dark);
+  color: var(--text-dark);
+  border-radius: 999px;
+  padding: 0.35rem 1.1rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.letter-paper__close:hover {
+  background: var(--text-dark);
+  color: var(--bg);
 }
 
 .visually-hidden {

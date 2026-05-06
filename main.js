@@ -38,8 +38,8 @@
     );
   }
 
-  var stepPass = document.getElementById("letter-secret-step-pass");
-  var stepLetter = document.getElementById("letter-secret-step-letter");
+  var envelope = document.getElementById("letter-envelope");
+  var seal = document.getElementById("letter-seal");
   var input = document.getElementById("letter-secret-input");
   var hint = document.getElementById("letter-secret-hint");
   var elTo = document.getElementById("letter-secret-to");
@@ -91,28 +91,54 @@
     });
   });
 
-  function resetSteps() {
-    if (stepPass) stepPass.removeAttribute("hidden");
-    if (stepLetter) stepLetter.setAttribute("hidden", "");
+  function resetEnvelope() {
+    if (envelope) {
+      envelope.classList.remove("is-input");
+      envelope.classList.remove("is-open");
+      envelope.classList.remove("is-shaking");
+    }
     if (input) input.value = "";
     if (hint) hint.textContent = "";
     if (elTo) elTo.textContent = "";
     if (elBody) elBody.textContent = "";
   }
 
+  function showInput() {
+    if (!envelope) return;
+    if (envelope.classList.contains("is-open")) return;
+    envelope.classList.add("is-input");
+    setTimeout(function () { if (input) input.focus(); }, 320);
+  }
+
+  function hideInput() {
+    if (!envelope) return;
+    envelope.classList.remove("is-input");
+    if (input) input.value = "";
+    if (hint) hint.textContent = "";
+  }
+
+  function shakeInput() {
+    if (!envelope) return;
+    envelope.classList.remove("is-shaking");
+    void envelope.offsetWidth;
+    envelope.classList.add("is-shaking");
+    setTimeout(function () {
+      if (envelope) envelope.classList.remove("is-shaking");
+    }, 420);
+  }
+
   function openDialog() {
-    resetSteps();
+    resetEnvelope();
     dialog.removeAttribute("hidden");
     dialog.classList.add("is-open");
     document.body.classList.add("letter-secret-open");
-    setTimeout(function () { if (input) input.focus(); }, 0);
   }
 
   function closeDialog() {
     dialog.classList.remove("is-open");
     dialog.setAttribute("hidden", "");
     document.body.classList.remove("letter-secret-open");
-    resetSteps();
+    resetEnvelope();
   }
 
   var isSubmitting = false;
@@ -120,8 +146,10 @@
   function showLetter(entry) {
     if (elTo) elTo.textContent = entry.to_name || "";
     if (elBody) elBody.textContent = entry.body || "";
-    if (stepPass) stepPass.setAttribute("hidden", "");
-    if (stepLetter) stepLetter.removeAttribute("hidden");
+    if (envelope) {
+      envelope.classList.remove("is-input");
+      envelope.classList.add("is-open");
+    }
     dialog.setAttribute("aria-labelledby", "letter-secret-to");
   }
 
@@ -132,6 +160,7 @@
     if (hint) hint.textContent = "";
     if (!key) {
       if (hint) hint.textContent = "비밀번호를 입력해주세요.";
+      shakeInput();
       return;
     }
     if (!supabaseClient) {
@@ -147,12 +176,14 @@
       var res = await supabaseClient.rpc("get_letter", { p_password: key });
       if (res.error) {
         if (hint) hint.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+        shakeInput();
         return;
       }
       var rows = res.data || [];
       var entry = rows.length ? rows[0] : null;
       if (!entry) {
-        if (hint) hint.textContent = "비밀번호가 올바르지 않습니다.";
+        if (hint) hint.textContent = "비밀번호가 틀렸습니다";
+        shakeInput();
         return;
       }
       if (hint) hint.textContent = "";
@@ -163,6 +194,7 @@
     }
   }
 
+  if (seal) seal.addEventListener("click", showInput);
   if (btnSubmit) btnSubmit.addEventListener("click", trySubmit);
   if (input) {
     input.addEventListener("keydown", function (e) {
@@ -172,7 +204,7 @@
       }
     });
   }
-  if (btnCancel) btnCancel.addEventListener("click", closeDialog);
+  if (btnCancel) btnCancel.addEventListener("click", hideInput);
   if (btnDone) btnDone.addEventListener("click", closeDialog);
   if (btnCloseX) btnCloseX.addEventListener("click", closeDialog);
 

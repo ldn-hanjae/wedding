@@ -255,24 +255,40 @@
     <div class="letter-secret__backdrop" aria-hidden="true"></div>
     <div class="letter-secret__panel">
       <button type="button" class="letter-secret__close" id="letter-secret-close-x" aria-label="닫기">×</button>
-      <div id="letter-secret-step-pass" class="letter-secret__step">
-        <h2 id="letter-secret-heading">비밀번호를 입력해 주세요</h2>
-        <label class="visually-hidden" for="letter-secret-input">비밀번호</label>
-        <input type="password" id="letter-secret-input" class="letter-secret__field" autocomplete="off"
-          placeholder="비밀번호" />
-        <div id="letter-secret-hint" class="letter-secret__hint" aria-live="polite"></div>
-        <div class="letter-secret__actions">
-          <button type="button" class="letter-secret__btn" id="letter-secret-cancel">취소</button>
-          <button type="button" class="letter-secret__btn letter-secret__btn--primary"
-            id="letter-secret-submit">확인</button>
+
+      <div class="letter-envelope" id="letter-envelope">
+        <div class="letter-envelope__body">
+          <span class="letter-envelope__flap letter-envelope__flap--left" aria-hidden="true"></span>
+          <span class="letter-envelope__flap letter-envelope__flap--right" aria-hidden="true"></span>
+          <span class="letter-envelope__flap letter-envelope__flap--bottom" aria-hidden="true"></span>
+          <span class="letter-envelope__flap letter-envelope__flap--top" aria-hidden="true"></span>
         </div>
-      </div>
-      <div id="letter-secret-step-letter" class="letter-secret__step" hidden>
-        <p class="letter-secret__to" id="letter-secret-to"></p>
-        <div class="letter-secret__body" id="letter-secret-body"></div>
-        <div class="letter-secret__actions">
-          <button type="button" class="letter-secret__btn letter-secret__btn--primary"
-            id="letter-secret-done">닫기</button>
+
+        <div class="letter-envelope__zone">
+          <button type="button" class="letter-seal" id="letter-seal" aria-label="비밀번호 입력하기">
+            <span class="letter-seal__round">
+              <span class="letter-seal__text">For you</span>
+            </span>
+          </button>
+
+          <div class="letter-password">
+            <p id="letter-secret-heading" class="letter-password__label">비밀번호 입력</p>
+            <label class="visually-hidden" for="letter-secret-input">비밀번호</label>
+            <input type="password" id="letter-secret-input" class="letter-password__input" autocomplete="off"
+              placeholder="비밀번호" />
+            <p class="letter-password__hint" id="letter-secret-hint" aria-live="polite"></p>
+            <div class="letter-password__actions">
+              <button type="button" class="letter-password__btn" id="letter-secret-cancel">취소</button>
+              <button type="button" class="letter-password__btn letter-password__btn--primary"
+                id="letter-secret-submit">열기</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="letter-paper">
+          <p class="letter-paper__to" id="letter-secret-to"></p>
+          <div class="letter-paper__body" id="letter-secret-body"></div>
+          <button type="button" class="letter-paper__close" id="letter-secret-done">닫기</button>
         </div>
       </div>
     </div>

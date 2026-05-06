@@ -784,7 +784,7 @@ body.gallery-lightbox-open {
   z-index: 10000;
   align-items: center;
   justify-content: center;
-  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  padding: max(15px, env(safe-area-inset-top)) max(15px, env(safe-area-inset-right)) max(15px, env(safe-area-inset-bottom)) max(15px, env(safe-area-inset-left));
   box-sizing: border-box;
 }
 
@@ -812,44 +812,49 @@ body.letter-secret-open {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: min(22rem, calc(100vw - 2rem));
+  max-width: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem 0.5rem 0.75rem;
+  padding: 0;
   box-sizing: border-box;
 }
 
 .letter-secret__close {
   position: absolute;
-  top: 0;
-  right: 0.25rem;
+  top: 0.4rem;
+  right: 0.4rem;
   width: 2rem;
   height: 2rem;
   border: none;
-  background: transparent;
-  color: #fff;
-  font-size: 1.5rem;
+  background: rgba(0, 0, 0, 0.06);
+  color: #555;
+  font-size: 1.4rem;
   font-weight: 300;
   line-height: 1;
   cursor: pointer;
   font-family: inherit;
   padding: 0;
+  border-radius: 50%;
   z-index: 60;
   -webkit-tap-highlight-color: transparent;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .letter-secret__close:hover {
-  color: #f0f0f0;
+  background: rgba(0, 0, 0, 0.12);
+  color: #222;
 }
 
 /* === Envelope === */
 .letter-envelope {
   position: relative;
   width: 100%;
-  max-width: 260px;
-  height: 400px;
+  max-width: 400px;
+  height: min(900px, calc(100vh - 30px));
+  height: min(900px, calc(100dvh - 30px));
   perspective: 1500px;
   display: flex;
   align-items: center;
@@ -861,7 +866,7 @@ body.letter-secret-open {
   top: 30px;
   left: 0;
   right: 0;
-  height: 340px;
+  bottom: 30px;
   background: #fdfdfb;
   border: 1px solid #ececea;
   border-radius: 4px;

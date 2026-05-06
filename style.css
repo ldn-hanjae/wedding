@@ -859,8 +859,7 @@ body.letter-secret-open {
 }
 
 .letter-envelope__flap--left,
-.letter-envelope__flap--right,
-.letter-envelope__flap--bottom {
+.letter-envelope__flap--right {
   display: none;
 }
 
@@ -873,6 +872,16 @@ body.letter-secret-open {
   filter:
     drop-shadow(0 4px 4px rgba(70, 55, 20, 0.22))
     drop-shadow(0 1px 0 rgba(0, 0, 0, 0.07));
+}
+
+.letter-envelope__flap--bottom {
+  background: linear-gradient(0deg, #ffffff 0%, #fbf4df 55%, #eadfbf 100%);
+  clip-path: polygon(0 100%, 50% 65%, 100% 100%);
+  z-index: 12;
+  border-radius: 0 0 4px 4px;
+  filter:
+    drop-shadow(0 -4px 4px rgba(70, 55, 20, 0.22))
+    drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.07));
 }
 
 .letter-envelope__zone {

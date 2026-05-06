@@ -26,15 +26,17 @@
 
 /* 편지 이스터에그: 믿음→소망→사랑 순서 클릭 */
 (function () {
-  var SECRET_LETTERS = {
-    "1": {
-      to: "지선에게",
-      body: "안녕 지선아",
-    },
-  };
-
   var dialog = document.getElementById("letter-secret-dialog");
   if (!dialog) return;
+
+  var supabaseClient = null;
+  if (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+    supabaseClient = window.supabase.createClient(
+      window.SUPABASE_URL,
+      window.SUPABASE_ANON_KEY,
+      { auth: { persistSession: false, autoRefreshToken: false } }
+    );
+  }
 
   var stepPass = document.getElementById("letter-secret-step-pass");
   var stepLetter = document.getElementById("letter-secret-step-letter");
@@ -113,20 +115,52 @@
     resetSteps();
   }
 
-  function trySubmit() {
-    var raw = (input && input.value) || "";
-    var key = raw.trim();
-    if (hint) hint.textContent = "";
-    var entry = SECRET_LETTERS[key];
-    if (!entry) {
-      if (hint) hint.textContent = "비밀번호가 올바르지 않습니다.";
-      return;
-    }
-    if (elTo) elTo.textContent = entry.to || "";
+  var isSubmitting = false;
+
+  function showLetter(entry) {
+    if (elTo) elTo.textContent = entry.to_name || "";
     if (elBody) elBody.textContent = entry.body || "";
     if (stepPass) stepPass.setAttribute("hidden", "");
     if (stepLetter) stepLetter.removeAttribute("hidden");
     dialog.setAttribute("aria-labelledby", "letter-secret-to");
+  }
+
+  async function trySubmit() {
+    if (isSubmitting) return;
+    var raw = (input && input.value) || "";
+    var key = raw.trim();
+    if (hint) hint.textContent = "";
+    if (!key) {
+      if (hint) hint.textContent = "비밀번호를 입력해주세요.";
+      return;
+    }
+    if (!supabaseClient) {
+      if (hint) hint.textContent = "지금은 편지를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.";
+      return;
+    }
+
+    isSubmitting = true;
+    if (btnSubmit) btnSubmit.disabled = true;
+    if (hint) hint.textContent = "확인 중…";
+
+    try {
+      var res = await supabaseClient.rpc("get_letter", { p_password: key });
+      if (res.error) {
+        if (hint) hint.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+        return;
+      }
+      var rows = res.data || [];
+      var entry = rows.length ? rows[0] : null;
+      if (!entry) {
+        if (hint) hint.textContent = "비밀번호가 올바르지 않습니다.";
+        return;
+      }
+      if (hint) hint.textContent = "";
+      showLetter(entry);
+    } finally {
+      isSubmitting = false;
+      if (btnSubmit) btnSubmit.disabled = false;
+    }
   }
 
   if (btnSubmit) btnSubmit.addEventListener("click", trySubmit);

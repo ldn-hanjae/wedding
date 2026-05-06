@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>편지 관리 · 어드민</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='50' font-size='58' text-anchor='middle' dominant-baseline='central' style='font-family:Apple%20Color%20Emoji,%20Segoe%20UI%20Emoji,%20Noto%20Color%20Emoji,%20sans-serif'%3E%E2%9C%89%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="../fonts/fonts.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+  <main class="admin-wrap">
+    <header class="admin-header">
+      <h1 class="admin-title">편지 관리</h1>
+      <div class="admin-user" id="admin-user" hidden>
+        <span class="admin-user-email" id="admin-user-email"></span>
+        <button type="button" class="admin-link-btn" id="admin-logout-btn">로그아웃</button>
+      </div>
+    </header>
+
+    <section class="admin-card" id="admin-login-section">
+      <h2 class="admin-card-title">로그인</h2>
+      <form class="admin-form" id="admin-login-form" novalidate>
+        <label class="admin-field">
+          <span class="admin-field-label">이메일</span>
+          <input type="email" id="admin-email" required autocomplete="email" />
+        </label>
+        <label class="admin-field">
+          <span class="admin-field-label">비밀번호</span>
+          <input type="password" id="admin-password" required autocomplete="current-password" />
+        </label>
+        <button type="submit" class="admin-primary-btn" id="admin-login-submit">로그인</button>
+        <p class="admin-error" id="admin-login-error" hidden></p>
+      </form>
+      <p class="admin-hint">
+        어드민 계정은 Supabase 대시보드의 Authentication → Users에서 직접 생성해주세요.
+      </p>
+    </section>
+
+    <section class="admin-card" id="admin-letters-section" hidden>
+      <div class="admin-toolbar">
+        <h2 class="admin-card-title">편지 목록 <span class="admin-count" id="admin-letters-count">0</span></h2>
+        <button type="button" class="admin-primary-btn admin-primary-btn--small" id="admin-new-letter-btn">＋ 새 편지</button>
+      </div>
+      <p class="admin-status" id="admin-letters-status">불러오는 중…</p>
+      <ul class="admin-letters-list" id="admin-letters-list"></ul>
+    </section>
+  </main>
+
+  <div class="admin-editor" id="admin-editor" hidden>
+    <div class="admin-editor__backdrop" id="admin-editor-backdrop"></div>
+    <div class="admin-editor__panel" role="dialog" aria-modal="true" aria-labelledby="admin-editor-title">
+      <h2 class="admin-editor__title" id="admin-editor-title">새 편지</h2>
+      <form class="admin-form" id="admin-editor-form" novalidate>
+        <label class="admin-field">
+          <span class="admin-field-label">비밀번호 <small>(이 편지를 받을 사람에게만 알려줄 비밀번호)</small></span>
+          <input type="text" id="admin-editor-password" required autocomplete="off" />
+        </label>
+        <label class="admin-field">
+          <span class="admin-field-label">받는 사람</span>
+          <input type="text" id="admin-editor-to" required autocomplete="off" placeholder="예: 지선에게" />
+        </label>
+        <label class="admin-field">
+          <span class="admin-field-label">편지 내용</span>
+          <textarea id="admin-editor-body" required rows="10" placeholder="편지를 작성해주세요"></textarea>
+        </label>
+        <div class="admin-editor__actions">
+          <button type="button" class="admin-secondary-btn" id="admin-editor-cancel">취소</button>
+          <button type="submit" class="admin-primary-btn" id="admin-editor-save">저장</button>
+        </div>
+        <p class="admin-error" id="admin-editor-error" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-toast" id="admin-toast" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+
+</html>

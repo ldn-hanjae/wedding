@@ -876,7 +876,7 @@ body.letter-secret-open {
 
 .letter-envelope__flap--bottom {
   background: linear-gradient(0deg, #ffffff 0%, #fbf4df 55%, #eadfbf 100%);
-  clip-path: polygon(0 100%, 47% 50%, 53% 50%, 100% 100%);
+  clip-path: polygon(0 100%, 47% 45%, 53% 45%, 100% 100%);
   z-index: 12;
   border-radius: 0 0 4px 4px;
   filter:

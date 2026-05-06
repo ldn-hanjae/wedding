@@ -849,7 +849,7 @@ body.letter-secret-open {
   position: relative;
   width: 100%;
   max-width: 320px;
-  height: 260px;
+  height: 380px;
   perspective: 1500px;
   display: flex;
   align-items: center;
@@ -858,8 +858,10 @@ body.letter-secret-open {
 
 .letter-envelope__body {
   position: absolute;
-  inset: 30px 0 0;
-  height: 200px;
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 300px;
   background: #d7c9b5;
   border-radius: 12px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);

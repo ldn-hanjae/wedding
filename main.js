@@ -347,11 +347,48 @@
 
 /* 초대장 파트별 등장 + 키워드 클릭 팝 효과 */
 (function () {
+  var WIGGLE_ORDER_SEL = [".pop-word--faith", ".pop-word--hope", ".pop-word--love"];
+  var wiggleWords = WIGGLE_ORDER_SEL.map(function (sel) {
+    return document.querySelector(sel);
+  }).filter(Boolean);
+
+  var INTER_WIGGLE_GAP_MS = 1000;
+  var WIGGLE_INTERVAL_MS = 10000;
+  var wiggleStarted = false;
+
+  function runWiggleCycle() {
+    var delayMs = 0;
+    wiggleWords.forEach(function (w, i) {
+      if (i > 0) delayMs += INTER_WIGGLE_GAP_MS;
+      window.setTimeout(function () {
+        var part = w.closest(".invite-part");
+        if (!part || !part.classList.contains("is-visible")) return;
+        if (w.classList.contains("is-popping")) return;
+        w.classList.remove("is-wiggling");
+        void w.offsetWidth;
+        w.classList.add("is-wiggling");
+      }, delayMs);
+    });
+  }
+
+  function startWiggleCycles() {
+    if (wiggleStarted) return;
+    if (!wiggleWords.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    wiggleStarted = true;
+    runWiggleCycle();
+    setInterval(runWiggleCycle, WIGGLE_INTERVAL_MS);
+  }
+
+  var lastWiggleWord = wiggleWords[wiggleWords.length - 1];
+  var lastWigglePart = lastWiggleWord && lastWiggleWord.closest(".invite-part");
+
   var parts = document.querySelectorAll(".invite-part");
   if (parts.length) {
     if (!("IntersectionObserver" in window) ||
         window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       parts.forEach(function (p) { p.classList.add("is-visible"); });
+      startWiggleCycles();
     } else {
       var io = new IntersectionObserver(function (entries, obs) {
         entries.forEach(function (entry) {
@@ -359,10 +396,15 @@
           var part = entry.target;
           obs.unobserve(part);
           part.classList.add("is-visible");
+          if (part === lastWigglePart) {
+            startWiggleCycles();
+          }
         });
       }, { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.3 });
       parts.forEach(function (p) { io.observe(p); });
     }
+  } else {
+    startWiggleCycles();
   }
 
   var popWords = document.querySelectorAll(".pop-word");
@@ -379,36 +421,6 @@
       }
     });
   });
-
-  var WIGGLE_ORDER_SEL = [".pop-word--faith", ".pop-word--hope", ".pop-word--love"];
-  var wiggleWords = WIGGLE_ORDER_SEL.map(function (sel) {
-    return document.querySelector(sel);
-  }).filter(Boolean);
-
-  var INTER_WIGGLE_GAP_MS = 1000;
-
-  var WIGGLE_INTERVAL_MS = 10000;
-  if (
-    wiggleWords.length &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  ) {
-    setInterval(function () {
-      var delayMs = 0;
-      wiggleWords.forEach(function (w, i) {
-        if (i > 0) delayMs += INTER_WIGGLE_GAP_MS;
-        window.setTimeout(function () {
-          var part = w.closest(".invite-part");
-          if (!part || !part.classList.contains("is-visible")) return;
-          if (w.classList.contains("is-popping")) return;
-          var p = w.closest(".invite-part");
-          if (!p || !p.classList.contains("is-visible")) return;
-          w.classList.remove("is-wiggling");
-          void w.offsetWidth;
-          w.classList.add("is-wiggling");
-        }, delayMs);
-      });
-    }, WIGGLE_INTERVAL_MS);
-  }
 })();
 
 /* 갤러리 라이트박스 (스와이프 애니메이션) */

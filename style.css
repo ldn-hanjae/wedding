@@ -864,7 +864,7 @@ body.letter-secret-open {
 }
 
 .letter-envelope__flap--top {
-  background: linear-gradient(165deg, #efe1bb 0%, #e3d3a4 60%, #d4c189 100%);
+  background: linear-gradient(165deg, #ffffff 0%, #f6f6f2 100%);
   clip-path: polygon(0 0, 47% 50%, 53% 50%, 100% 0);
   z-index: 13;
   transform-origin: top;
@@ -873,7 +873,7 @@ body.letter-secret-open {
 }
 
 .letter-envelope__flap--bottom {
-  background: linear-gradient(0deg, #ffffff 0%, #f6f6f2 100%);
+  background: #ffffff;
   clip-path: polygon(0 100%, 47% 45%, 53% 45%, 100% 100%);
   z-index: 12;
   border-radius: 0 0 4px 4px;

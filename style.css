@@ -842,8 +842,8 @@ body.letter-secret-open {
   left: 0;
   right: 0;
   bottom: 30px;
-  background: #faf5e8;
-  border: 1px solid #e8e0cd;
+  background: #ffffff;
+  border: 1px solid #ececec;
   border-radius: 4px;
   box-shadow:
     0 18px 36px rgba(0, 0, 0, 0.14),
@@ -864,22 +864,22 @@ body.letter-secret-open {
 }
 
 .letter-envelope__flap--top {
-  background: linear-gradient(165deg, #ffffff 0%, #fbf4df 55%, #eadfbf 100%);
+  background: linear-gradient(165deg, #efe1bb 0%, #e3d3a4 60%, #d4c189 100%);
   clip-path: polygon(0 0, 47% 50%, 53% 50%, 100% 0);
   z-index: 13;
   transform-origin: top;
   border-radius: 4px 4px 0 0;
-  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.07));
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.08));
 }
 
 .letter-envelope__flap--bottom {
-  background: linear-gradient(0deg, #ffffff 0%, #fbf4df 55%, #eadfbf 100%);
+  background: linear-gradient(0deg, #ffffff 0%, #f6f6f2 100%);
   clip-path: polygon(0 100%, 47% 45%, 53% 45%, 100% 100%);
   z-index: 12;
   border-radius: 0 0 4px 4px;
   filter:
-    drop-shadow(0 -4px 4px rgba(70, 55, 20, 0.22))
-    drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.07));
+    drop-shadow(0 -3px 4px rgba(0, 0, 0, 0.08))
+    drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.06));
 }
 
 .letter-envelope__zone {

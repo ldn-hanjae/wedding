@@ -385,9 +385,7 @@
     return document.querySelector(sel);
   }).filter(Boolean);
 
-  function randomInterWiggleGapMs() {
-    return Math.floor(1000 + Math.random() * 2001);
-  }
+  var INTER_WIGGLE_GAP_MS = 1000;
 
   var WIGGLE_INTERVAL_MS = 10000;
   if (
@@ -397,7 +395,7 @@
     setInterval(function () {
       var delayMs = 0;
       wiggleWords.forEach(function (w, i) {
-        if (i > 0) delayMs += randomInterWiggleGapMs();
+        if (i > 0) delayMs += INTER_WIGGLE_GAP_MS;
         window.setTimeout(function () {
           var part = w.closest(".invite-part");
           if (!part || !part.classList.contains("is-visible")) return;

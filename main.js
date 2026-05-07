@@ -208,6 +208,15 @@
   if (btnDone) btnDone.addEventListener("click", closeDialog);
   if (btnBackdrop) btnBackdrop.addEventListener("click", closeDialog);
 
+  if (envelope) {
+    var letterPaper = envelope.querySelector(".letter-paper");
+    envelope.addEventListener("click", function (e) {
+      if (!envelope.classList.contains("is-open")) return;
+      if (letterPaper && letterPaper.contains(e.target)) return;
+      closeDialog();
+    });
+  }
+
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
     if (!dialog.classList.contains("is-open")) return;

@@ -1106,8 +1106,7 @@ body.letter-secret-open {
 /* === Letter Paper === */
 .letter-paper {
   position: absolute;
-  inset: 0;
-  width: 100%;
+  inset: 10px;
   background: var(--bg);
   background-image: linear-gradient(#e5dcc3 1px, transparent 1px);
   background-size: 100% 1.5rem;

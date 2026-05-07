@@ -869,7 +869,6 @@ body.letter-secret-open {
   z-index: 13;
   transform-origin: top;
   border-radius: 4px 4px 0 0;
-  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.08));
 }
 
 .letter-envelope__flap--bottom {
@@ -884,15 +883,22 @@ body.letter-secret-open {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 12;
   pointer-events: none;
   display: block;
   overflow: visible;
 }
 
+.letter-envelope__seam--bottom {
+  z-index: 12;
+}
+
+.letter-envelope__seam--top {
+  z-index: 14;
+}
+
 .letter-envelope__seam polyline {
   fill: none;
-  stroke: rgba(160, 160, 160, 0.55);
+  stroke: rgba(160, 160, 160, 0.20);
   stroke-width: 1.2;
   vector-effect: non-scaling-stroke;
   stroke-linejoin: round;

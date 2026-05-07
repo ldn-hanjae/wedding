@@ -389,7 +389,7 @@
     return Math.floor(1000 + Math.random() * 2001);
   }
 
-  var WIGGLE_INTERVAL_MS = 10000;
+  var WIGGLE_INTERVAL_MS = 1000;
   if (
     wiggleWords.length &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches

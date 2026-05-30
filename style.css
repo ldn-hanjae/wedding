@@ -3,6 +3,10 @@
   --text: #667e6b;
   --text-dark: #5c6f5a;
   --text-body: #333333;
+  /* 예식 달력 강조색 — 본문 톤과 맞춘 세이지 그린 */
+  --ceremony-accent: var(--text-dark);
+  --ceremony-cal-text: #555555;
+  --ceremony-cal-cell-h: 3rem;
   --bracket: #cccccc;
   --cover-tagline-font: clamp(1.35rem, 5.2vw, 1.95rem);
   --cover-tagline-leading: 1.2;
@@ -258,21 +262,148 @@ body {
   font-weight: 700;
 }
 
-.details {
-  text-align: center;
+/* ========== 예식 안내 + 달력 ========== */
+.ceremony-section {
   margin-top: 2.5rem;
+  text-align: left;
+}
+
+.ceremony-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.ceremony-title {
+  font-weight: 700;
+  font-size: 1rem;
   color: var(--text-body);
+}
+
+.ceremony-separator {
+  border: none;
+  border-top: 1px dotted #bbb;
+  margin: 0 0 1.25rem 0;
+}
+
+.ceremony-summary {
+  color: var(--ceremony-cal-text);
   font-size: 0.95rem;
-  line-height: 1.8;
+  line-height: 1.85;
+  margin-bottom: 1.85rem;
+  text-align: center;
 }
 
-.details .datetime {
+.ceremony-datetime {
   font-weight: 500;
-  margin-bottom: 0.35rem;
+  margin: 0 0 0.35rem;
 }
 
-.details .venue {
+.ceremony-venue {
   font-weight: 400;
+  margin: 0;
+}
+
+.ceremony-month-label {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--ceremony-accent);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.ceremony-calendar-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ceremony-cal {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.78rem;
+  color: var(--ceremony-cal-text);
+  background: transparent;
+  border: none;
+}
+
+.ceremony-cal thead th {
+  font-weight: 600;
+  font-size: 0.72rem;
+  padding: 0.45rem 0.15rem 0.6rem;
+  border: none;
+  background: transparent;
+  color: var(--ceremony-cal-text);
+  text-align: center;
+}
+
+.ceremony-cal tbody td {
+  border: none;
+}
+
+.ceremony-cal__cell {
+  box-sizing: border-box;
+  vertical-align: middle;
+  text-align: center;
+  height: var(--ceremony-cal-cell-h);
+  padding: 0 0.18rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.ceremony-cal__cell--muted {
+  pointer-events: none;
+}
+
+.ceremony-cal__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.05rem;
+  height: 2.05rem;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: var(--ceremony-accent);
+  border: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: inherit;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ceremony-cal__day-num {
+  position: relative;
+  top: 0.03em;
+  font-size: 0.92em;
+  color: inherit;
+}
+
+@media (min-width: 380px) {
+  :root {
+    --ceremony-cal-cell-h: 3.2rem;
+  }
+
+  .ceremony-cal {
+    font-size: 0.84rem;
+  }
+
+  .ceremony-cal thead th {
+    font-size: 0.77rem;
+    padding: 0.5rem 0.22rem 0.65rem;
+  }
+
+  .ceremony-cal__cell {
+    padding: 0 0.22rem;
+  }
+
+  .ceremony-cal__badge {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
 }
 
 .bus-section {
@@ -819,10 +950,39 @@ body.letter-secret-open {
   width: 100%;
   max-width: 400px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
   padding: 0;
   box-sizing: border-box;
+}
+
+.letter-envelope.is-open ~ .letter-wax-close {
+  display: none;
+}
+
+.letter-wax-close {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.4rem 1.25rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: rgba(40, 40, 40, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.letter-wax-close:hover,
+.letter-wax-close:focus-visible {
+  background: rgba(30, 30, 30, 0.9);
+  color: #fff;
+  outline: none;
 }
 
 /* === Envelope === */
@@ -1112,7 +1272,7 @@ body.letter-secret-open {
   background: var(--bg);
   border: 1px solid #e5dcc3;
   border-radius: 16px;
-  padding: 1.5rem 0 1rem;
+  padding: 1.5rem 0 0;
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
@@ -1186,14 +1346,26 @@ body.letter-secret-open {
   border-radius: 10px;
 }
 
+.letter-paper__footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: 0.75rem 1.4rem 1.15rem;
+  border-top: 1px solid rgba(229, 220, 195, 0.75);
+  background: rgba(248, 248, 244, 0.98);
+}
+
 .letter-paper__close {
-  margin: 1rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: fit-content;
   flex-shrink: 0;
   background: var(--bg);
   border: 1px solid var(--text-dark);
   color: var(--text-dark);
   border-radius: 999px;
-  padding: 0.4rem 1.2rem;
+  padding: 0.45rem 1.35rem;
   font-family: inherit;
   font-size: 0.78rem;
   letter-spacing: 0.04em;

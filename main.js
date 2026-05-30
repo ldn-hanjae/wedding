@@ -47,6 +47,7 @@
   var btnSubmit = document.getElementById("letter-secret-submit");
   var btnCancel = document.getElementById("letter-secret-cancel");
   var btnDone = document.getElementById("letter-secret-done");
+  var btnWaxClose = document.getElementById("letter-secret-wax-close");
   var btnBackdrop = document.getElementById("letter-secret-backdrop");
 
   var SEQUENCE = ["믿음", "소망", "사랑"];
@@ -206,6 +207,7 @@
   }
   if (btnCancel) btnCancel.addEventListener("click", hideInput);
   if (btnDone) btnDone.addEventListener("click", closeDialog);
+  if (btnWaxClose) btnWaxClose.addEventListener("click", closeDialog);
   if (btnBackdrop) btnBackdrop.addEventListener("click", closeDialog);
 
   if (envelope) {

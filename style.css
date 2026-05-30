@@ -1254,6 +1254,48 @@ body.letter-secret-open {
   color: var(--text-dark);
 }
 
+.letter-secret-close {
+  position: absolute;
+  left: 50%;
+  bottom: 44px;
+  transform: translateX(-50%) translateY(6px);
+  z-index: 35;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #999;
+  cursor: pointer;
+  padding: 0.3rem 0.9rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s, color 0.2s;
+}
+
+.letter-envelope.is-input .letter-secret-close {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+  transition-delay: 0.15s;
+}
+
+.letter-envelope.is-open .letter-secret-close {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.letter-secret-close:hover,
+.letter-secret-close:focus-visible {
+  color: var(--text-dark);
+  outline: none;
+}
+
 .letter-envelope.is-shaking .letter-password {
   animation: letter-shake 0.4s ease-in-out;
 }

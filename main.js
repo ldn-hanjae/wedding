@@ -1,27 +1,20 @@
-/* 주소 복사 */
+/* 지도 앱 링크 — 티맵: tmap://search (모바일 앱 전용) */
 (function () {
-  var fullAddress =
-    "인천광역시 연수구 송도과학로 16번길 33-1 (송도 트리플스트리트 A동 메리빌리아 셀레스메리홀)";
+  var tmapBtn = document.getElementById("open-tmap");
+  if (!tmapBtn) return;
 
-  var btn = document.getElementById("copy-address-btn");
-  if (btn) {
-    btn.addEventListener("click", function () {
-      navigator.clipboard
-        .writeText(fullAddress)
-        .then(function () {
-          btn.textContent = "복사되었습니다";
-          setTimeout(function () {
-            btn.textContent = "주소 복사";
-          }, 2000);
-        })
-        .catch(function () {
-          btn.textContent = "복사 실패";
-          setTimeout(function () {
-            btn.textContent = "주소 복사";
-          }, 2000);
-        });
-    });
-  }
+  var tmapAppUrl =
+    "tmap://search?name=" + encodeURIComponent("송도 트리플스트리트 A동 주차장");
+
+  tmapBtn.setAttribute("href", tmapAppUrl);
+
+  tmapBtn.addEventListener("click", function (e) {
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      e.preventDefault();
+      window.alert("티맵은 모바일 앱에서 이용하실 수 있습니다.");
+    }
+  });
 })();
 
 /* 편지 이스터에그: 믿음→소망→사랑 순서 클릭 */
@@ -735,4 +728,250 @@
       }, 1500);
     });
   });
+})();
+
+/* 예식까지 남은 시간 (한국시간) */
+(function () {
+  var root = document.getElementById("ceremony-countdown");
+  var doneEl = document.getElementById("ceremony-countdown-done");
+  var summaryWrap = document.getElementById("ceremony-countdown-wrap");
+  if (!root || !summaryWrap) return;
+
+  var cards = {
+    days: root.querySelector('[data-flip="days"]'),
+    hours: root.querySelector('[data-flip="hours"]'),
+    minutes: root.querySelector('[data-flip="minutes"]'),
+    seconds: root.querySelector('[data-flip="seconds"]'),
+  };
+
+  var targetMs = Date.parse("2026-06-20T16:10:00+09:00");
+  var HIDE_AFTER_MS = 60 * 1000;
+  var timerId = null;
+  var hideTimerId = null;
+  var celebrationShown = false;
+  var FLIP_MS = 500;
+
+  function hideFold(fold) {
+    fold.style.visibility = "hidden";
+    fold.style.transform = "";
+  }
+
+  function showFold(fold) {
+    fold.style.visibility = "visible";
+    fold.style.transform = "";
+  }
+
+  function pad2(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  function formatDays(n) {
+    return n >= 100 ? String(n) : pad2(n);
+  }
+
+  function getHideRemainingMs() {
+    return Math.max(0, targetMs + HIDE_AFTER_MS - Date.now());
+  }
+
+  function fireConfetti() {
+    if (typeof confetti !== "function") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var colors = ["#5c6f5a", "#667e6b", "#f8f8f4", "#d4827e", "#c4a0a0"];
+
+    confetti({
+      particleCount: 110,
+      spread: 75,
+      origin: { y: 0.58 },
+      colors: colors,
+      disableForReducedMotion: true,
+    });
+
+    window.setTimeout(function () {
+      confetti({
+        particleCount: 70,
+        spread: 100,
+        origin: { x: 0.15, y: 0.55 },
+        colors: colors,
+        disableForReducedMotion: true,
+      });
+      confetti({
+        particleCount: 70,
+        spread: 100,
+        origin: { x: 0.85, y: 0.55 },
+        colors: colors,
+        disableForReducedMotion: true,
+      });
+    }, 180);
+  }
+
+  function hideSummaryArea() {
+    summaryWrap.classList.add("is-hiding");
+    window.setTimeout(function () {
+      summaryWrap.hidden = true;
+    }, 450);
+  }
+
+  function scheduleHide(delayMs) {
+    if (hideTimerId !== null) return;
+    hideTimerId = window.setTimeout(function () {
+      hideSummaryArea();
+      hideTimerId = null;
+    }, delayMs);
+  }
+
+  function showCelebration(withConfetti) {
+    if (celebrationShown) return;
+    celebrationShown = true;
+
+    if (timerId !== null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+
+    var countdownRow = document.getElementById("ceremony-countdown-row");
+    if (countdownRow) countdownRow.hidden = true;
+
+    if (doneEl) {
+      doneEl.hidden = false;
+      window.requestAnimationFrame(function () {
+        doneEl.classList.add("is-visible");
+      });
+    }
+
+    if (withConfetti) fireConfetti();
+    scheduleHide(getHideRemainingMs());
+  }
+
+  function setAllNums(card, value) {
+    card.querySelectorAll(".flip-clock__num").forEach(function (el) {
+      el.textContent = value;
+    });
+    card.dataset.value = value;
+  }
+
+  function flipCard(card, newValue) {
+    var oldValue = card.dataset.value || newValue;
+    if (oldValue === newValue) return;
+
+    if (card.dataset.animating === "1") {
+      card.dataset.pending = newValue;
+      return;
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setAllNums(card, newValue);
+      return;
+    }
+
+    card.dataset.animating = "1";
+
+    var upper = card.querySelector(".flip-clock__upper .flip-clock__num");
+    var lower = card.querySelector(".flip-clock__lower .flip-clock__num");
+    var foldUpper = card.querySelector(".flip-clock__fold--upper");
+    var foldLower = card.querySelector(".flip-clock__fold--lower");
+    var upperFront = foldUpper.querySelector(".flip-clock__fold-front .flip-clock__num");
+    var upperBack = foldUpper.querySelector(".flip-clock__fold-back .flip-clock__num");
+    var lowerFront = foldLower.querySelector(".flip-clock__fold-front .flip-clock__num");
+    var lowerBack = foldLower.querySelector(".flip-clock__fold-back .flip-clock__num");
+
+    upper.textContent = newValue;
+    lower.textContent = oldValue;
+
+    upperFront.textContent = oldValue;
+    upperBack.textContent = newValue;
+    lowerFront.textContent = newValue;
+    lowerBack.textContent = oldValue;
+
+    hideFold(foldUpper);
+    hideFold(foldLower);
+    showFold(foldUpper);
+    card.classList.remove("is-flip-upper", "is-flip-lower");
+    void card.offsetWidth;
+    card.classList.add("is-flip-upper");
+
+    window.setTimeout(function () {
+      card.classList.remove("is-flip-upper");
+      hideFold(foldUpper);
+
+      showFold(foldLower);
+      foldLower.style.transform = "rotateX(-90deg)";
+      void card.offsetWidth;
+      card.classList.add("is-flip-lower");
+
+      window.setTimeout(function () {
+        card.classList.remove("is-flip-lower");
+        hideFold(foldLower);
+        setAllNums(card, newValue);
+        card.dataset.animating = "0";
+
+        var pending = card.dataset.pending;
+        if (pending && pending !== newValue) {
+          card.dataset.pending = "";
+          flipCard(card, pending);
+        } else {
+          card.dataset.pending = "";
+        }
+      }, FLIP_MS);
+    }, FLIP_MS);
+  }
+
+  function render() {
+    var now = Date.now();
+    var diff = targetMs - now;
+
+    if (now >= targetMs + HIDE_AFTER_MS) {
+      summaryWrap.hidden = true;
+      if (timerId !== null) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+      return;
+    }
+
+    if (diff <= 0) {
+      showCelebration(true);
+      return;
+    }
+
+    var totalSec = Math.floor(diff / 1000);
+    var days = Math.floor(totalSec / 86400);
+    totalSec %= 86400;
+    var hours = Math.floor(totalSec / 3600);
+    totalSec %= 3600;
+    var mins = Math.floor(totalSec / 60);
+    var secs = totalSec % 60;
+
+    var next = {
+      days: formatDays(days),
+      hours: pad2(hours),
+      minutes: pad2(mins),
+      seconds: pad2(secs),
+    };
+
+    Object.keys(cards).forEach(function (key) {
+      var card = cards[key];
+      if (!card) return;
+
+      var current = card.dataset.value;
+      if (!current) {
+        setAllNums(card, next[key]);
+        return;
+      }
+
+      if (current !== next[key]) {
+        flipCard(card, next[key]);
+      }
+    });
+  }
+
+  var now = Date.now();
+  if (now >= targetMs + HIDE_AFTER_MS) {
+    summaryWrap.hidden = true;
+  } else if (now >= targetMs) {
+    showCelebration(false);
+  } else {
+    render();
+    timerId = setInterval(render, 1000);
+  }
 })();

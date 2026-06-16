@@ -4,7 +4,7 @@
   if (!tmapBtn) return;
 
   var tmapAppUrl =
-    "tmap://search?name=" + encodeURIComponent("송도 트리플스트리트 A동 주차장");
+    "tmap://search?name=" + encodeURIComponent("인천 메리빌리아 주차장");
 
   tmapBtn.setAttribute("href", tmapAppUrl);
 

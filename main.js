@@ -148,6 +148,85 @@
     dialog.setAttribute("aria-labelledby", "letter-secret-to");
   }
 
+  async function fetchLetterByPassword(key) {
+    if (!supabaseClient) {
+      return { entry: null, error: "unavailable" };
+    }
+
+    var res = await supabaseClient.rpc("get_letter", { p_password: key });
+    if (res.error) {
+      return { entry: null, error: "server" };
+    }
+
+    var rows = res.data || [];
+    var entry = rows.length ? rows[0] : null;
+    if (!entry) {
+      return { entry: null, error: "wrong" };
+    }
+
+    return { entry: entry, error: null };
+  }
+
+  function getPasswordFromQuery() {
+    try {
+      var key = new URLSearchParams(window.location.search).get("password");
+      return key ? key.trim() : "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function clearPasswordFromUrl() {
+    try {
+      var url = new URL(window.location.href);
+      if (!url.searchParams.has("password")) return;
+      url.searchParams.delete("password");
+      var next = url.pathname + url.search + url.hash;
+      window.history.replaceState(null, "", next);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  function showFetchError(errorCode, key) {
+    if (errorCode === "unavailable") {
+      if (hint) hint.textContent = "지금은 편지를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.";
+    } else if (errorCode === "server") {
+      if (hint) hint.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+    } else {
+      if (hint) hint.textContent = "비밀번호가 틀렸습니다";
+    }
+    showInput();
+    if (input) input.value = key;
+    shakeInput();
+  }
+
+  async function openLetterByPassword(key) {
+    var trimmed = (key || "").trim();
+    if (!trimmed) return;
+
+    openDialog();
+
+    isSubmitting = true;
+    if (btnSubmit) btnSubmit.disabled = true;
+    if (hint) hint.textContent = "불러오는 중…";
+
+    try {
+      var result = await fetchLetterByPassword(trimmed);
+      if (result.entry) {
+        clearPasswordFromUrl();
+        if (hint) hint.textContent = "";
+        showLetter(result.entry);
+        return;
+      }
+      clearPasswordFromUrl();
+      showFetchError(result.error, trimmed);
+    } finally {
+      isSubmitting = false;
+      if (btnSubmit) btnSubmit.disabled = false;
+    }
+  }
+
   async function trySubmit() {
     if (isSubmitting) return;
     var raw = (input && input.value) || "";
@@ -158,31 +237,19 @@
       shakeInput();
       return;
     }
-    if (!supabaseClient) {
-      if (hint) hint.textContent = "지금은 편지를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.";
-      return;
-    }
 
     isSubmitting = true;
     if (btnSubmit) btnSubmit.disabled = true;
     if (hint) hint.textContent = "확인 중…";
 
     try {
-      var res = await supabaseClient.rpc("get_letter", { p_password: key });
-      if (res.error) {
-        if (hint) hint.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
-        shakeInput();
+      var result = await fetchLetterByPassword(key);
+      if (result.entry) {
+        if (hint) hint.textContent = "";
+        showLetter(result.entry);
         return;
       }
-      var rows = res.data || [];
-      var entry = rows.length ? rows[0] : null;
-      if (!entry) {
-        if (hint) hint.textContent = "비밀번호가 틀렸습니다";
-        shakeInput();
-        return;
-      }
-      if (hint) hint.textContent = "";
-      showLetter(entry);
+      showFetchError(result.error, key);
     } finally {
       isSubmitting = false;
       if (btnSubmit) btnSubmit.disabled = false;
@@ -219,6 +286,11 @@
     if (!dialog.classList.contains("is-open")) return;
     closeDialog();
   });
+
+  var queryPassword = getPasswordFromQuery();
+  if (queryPassword) {
+    openLetterByPassword(queryPassword);
+  }
 })();
 
 /* 갤러리 그리드 + 스크롤 등장 */
